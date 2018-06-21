@@ -29,6 +29,11 @@
         - httpd
       become: true
 
+    - service:
+        name: httpd
+        enabled: yes
+        state: started
+
     - name: Pip Install AWSCLI
       pip: 'name={{ item }}'
       with_items:
@@ -50,11 +55,6 @@
       with_items:
         - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
         - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
-
-    - service:
-        name: httpd
-        enabled: yes
-        state: started
 
     - user:
         name: centos
