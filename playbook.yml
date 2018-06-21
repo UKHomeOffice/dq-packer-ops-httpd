@@ -5,7 +5,8 @@
   gather_facts: false
   become: yes
   pre_tasks:
-    - raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
+    - name: Install python
+      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
 
 - name: Install HTTPD
   hosts: all
@@ -42,8 +43,7 @@
         - aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
 
     - name: Remove AWS config
-      shell: rm ~/.aws/credentials
-      become: true
+      file: path='~/.aws/credentials' state=absent
 
     - name: Move config files to appropriate locations
       shell: '{{ item }}'
@@ -51,7 +51,7 @@
         - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
         - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
 
-     - service:
+    - service:
         name: httpd
         enabled: yes
         state: started
@@ -77,7 +77,7 @@
         dest: /tmp/awslogs-agent-setup.py
         mode: "+x"
 
-   - name: Cloudwatch logs config
+    - name: Cloudwatch logs config
       copy:
         dest: /tmp/cwlogs.conf
         content: |
