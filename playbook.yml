@@ -46,8 +46,10 @@
       become: true
 
     - name: Move config files to appropriate locations
-      shell: cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf && \
-             cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
+      shell: '{{ item }}'
+      with_items:
+        - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
+        - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
 
      - service:
         name: httpd
