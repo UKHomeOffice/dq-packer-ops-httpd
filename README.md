@@ -32,4 +32,3 @@ More information in [`CONTRIBUTING`](./CONTRIBUTING)
 
 ## Licensing
 The code in this project is licensed under this [`LICENSE`](./LICENSE)
-
