@@ -32,7 +32,8 @@
       "instance_type": "t2.micro",
       "ami_name": "dq-ops-httpd {{isotime | clean_ami_name}}",
       "ami_users": [
-        "648886225858"
+        "483846886818",
+        "337779336338"
       ]
     }
   ],
