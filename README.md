@@ -28,7 +28,7 @@ Drone min ver 0.5 is needed to deploy with `.drone.yaml` file
 If you'd like to contribute, please fork the repository and use a feature
 branch. Pull requests are warmly welcome.
 
-More information in [`CONTRIBUTING.md`](./CONTRIBUTING)
+More information in [`CONTRIBUTING`](./CONTRIBUTING)
 
 ## Licensing
 The code in this project is licensed under this [`LICENSE`](./LICENSE)
