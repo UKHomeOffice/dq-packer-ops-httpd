@@ -27,6 +27,8 @@
         - python-pip
         - cloud-utils
         - httpd
+        - mod_ssl
+        - python-certbot-apache
       become: true
 
     - service:
