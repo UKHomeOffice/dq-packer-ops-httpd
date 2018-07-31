@@ -42,6 +42,9 @@
         - AWSCLI
       become: true
 
+    - name: Update all libraries
+      yum: name=* state=latest      
+
     - name: GET config files from DQ-config-bucket
       shell: '{{ item }}'
       with_items:
