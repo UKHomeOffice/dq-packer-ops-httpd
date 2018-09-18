@@ -35,8 +35,9 @@
       file:
         path: /etc/letsencrypt/live
         state: directory
+        recurse: yes
         mode: 700
-        
+
     - service:
         name: httpd
         enabled: yes
