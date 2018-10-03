@@ -184,3 +184,17 @@
         path: /etc/sysconfig/network
         block: |
           RES_OPTIONS="rotate timeout:1 attempts:1"
+
+    - name: Secure sshd_config
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="^PermitRootLogin"
+                  line="PermitRootLogin no"
+                  state=present
+    - lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="^PasswordAuthentication"
+                  line="PasswordAuthentication no"
+                  state=present
+    - lineinfile: dest=/etc/ssh/sshd_config
+                  regexp="^X11Forwarding"
+                  line="X11Forwarding no"
+                  state=present          

@@ -45,7 +45,6 @@ pipeline:
       - NOTPROD_ACC_KEY
     when:
       event: push
-      branch: master
 
   packer-copy-prod:
     image: chrisns/packer-encrypt-copy
