@@ -27,7 +27,6 @@ pipeline:
       - AWS_SECRET_ACCESS_KEY
     when:
       event: push
-      branch: master
 
   packer-copy-notprod:
     image: chrisns/packer-encrypt-copy
