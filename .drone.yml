@@ -1,21 +1,21 @@
 pipeline:
 
   validate:
-    image: chrisns/packer-ansible
+    image: quay.io/ukhomeofficedigital/dq-packer-ansible
     environment:
     commands:
       - export HOME=/home/packer
       - packer validate packer.json
 
   inspect:
-    image: chrisns/packer-ansible
+    image: quay.io/ukhomeofficedigital/dq-packer-ansible
     environment:
     commands:
       - export HOME=/home/packer
       - packer inspect packer.json
 
   build:
-    image: chrisns/packer-ansible
+    image: quay.io/ukhomeofficedigital/dq-packer-ansible
     environment:
     commands:
       - export HOME=/home/packer
@@ -29,7 +29,7 @@ pipeline:
       event: push
 
   packer-copy-notprod:
-    image: chrisns/packer-encrypt-copy
+    image: quay.io/ukhomeofficedigital/dq-packer-encrypt-copy
     pull: true
     commands:
       - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
@@ -46,7 +46,7 @@ pipeline:
       event: push
 
   packer-copy-prod:
-    image: chrisns/packer-encrypt-copy
+    image: quay.io/ukhomeofficedigital/dq-packer-encrypt-copy
     pull: true
     commands:
       - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
