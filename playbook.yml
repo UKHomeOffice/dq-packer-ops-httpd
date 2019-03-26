@@ -80,7 +80,7 @@
       cron:
         minute: "*"
         hour: "*"
-        job: /home/centos/gets3content.sh
+        job: source /root/.bashrc && /home/centos/gets3content.sh
 
     - user:
         name: apache
@@ -197,4 +197,4 @@
     - lineinfile: dest=/etc/ssh/sshd_config
                   regexp="^X11Forwarding"
                   line="X11Forwarding no"
-                  state=present          
+                  state=present
