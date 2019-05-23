@@ -21,6 +21,10 @@
         - curl
       become: true
 
+    - name: Set timezone to Europe/London
+      timezone:
+        name: Europe/London
+        
     - name: Yum install required packages
       yum: name={{ item }}
       with_items:
