@@ -24,7 +24,7 @@
     - name: Set timezone to Europe/London
       timezone:
         name: Europe/London
-        
+
     - name: Yum install required packages
       yum: name={{ item }}
       with_items:
@@ -60,8 +60,11 @@
         - AWSCLI
       become: true
 
-    - name: Update all libraries
-      yum: name=* state=latest
+    - name: update all libraries, excluding python-urllib
+      yum:
+        name: '*'
+        state: latest
+        exclude: python-urllib*
 
     - name: GET config files from DQ-config-bucket
       shell: aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
