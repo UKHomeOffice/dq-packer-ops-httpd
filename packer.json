@@ -45,7 +45,7 @@
       "playbook_file": "./playbook.yml"
     },
     {
-      "type": "shell"
+      "type": "shell",
       "inline": [
         "yum install -y python3",
         "yum install -y pip3",
