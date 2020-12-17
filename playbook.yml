@@ -44,7 +44,7 @@
 
     - name: Install Python3 for cert expire script to run
       raw: yum -y install python3
-      when: check_python.rc != 0
+      when: check_python.rc == 0
 
     - name: Install boto3 and botocore with pip3 module
       pip:
