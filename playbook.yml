@@ -62,7 +62,7 @@
     - name: Create cronjob to run Tableau to S3 backup script every day at 7PM
       cron:
         name: Check Certificate Expiry Status
-        weekday: *
+        special_time: daily
         minute: 0
         hour: 9
         job: . /root/.bashrc && /bin/python3 /etc/letsencrypt/ssl_expire_script/cert_expiry_monitor.py
