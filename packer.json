@@ -47,9 +47,9 @@
     {
       "type": "shell",
       "inline": [
-        "yum install -y python3",
-        "yum install -y pip3",
-        "pip3 install boto3"
+        "sudo yum install -y python3",
+        "sudo yum install -y pip3",
+        "sudo pip3 install boto3"
         ]
     }
   ]
