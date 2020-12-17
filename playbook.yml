@@ -47,11 +47,11 @@
       when: check_python.rc != 0
 
     - name: Install boto3 and botocore with pip3 module
-    pip:
-      name:
-      - boto3
-      - botocore
-      executable: pip-3.7
+      pip:
+        name:
+        - boto3
+        - botocore
+        executable: pip-3.7
 
     - name: Create expire script directory and file
       copy:
