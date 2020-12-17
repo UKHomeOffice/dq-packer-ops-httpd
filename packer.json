@@ -43,6 +43,14 @@
       "type": "ansible",
       "sftp_command": "/usr/libexec/openssh/sftp-server",
       "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "shell"
+      "inline": [
+        "yum install -y python3",
+        "yum install -y pip3",
+        "pip3 install boto3"
+        ]
     }
   ]
 }
