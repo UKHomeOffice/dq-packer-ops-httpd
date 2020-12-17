@@ -45,6 +45,10 @@
     - name: Install Python3 for cert expire script to run
       raw: yum -y install python3
 
+    - name: install boto3
+      raw: pip install boto3
+
+
     - name: Create expire script directory and file
       copy:
         src: scripts/
