@@ -7,8 +7,6 @@
   pre_tasks:
     - name: Install python
       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
-    - name: Install pip3
-      raw: yum install -y pip3
 
 - name: Install HTTPD
   hosts: all
@@ -46,9 +44,6 @@
 
     - name: Install Python3 for cert expire script to run
       raw: yum -y install python3
-
-    - name: Install boto3
-      raw: pip3 install boto3
 
     - name: Create expire script directory and file
       copy:
