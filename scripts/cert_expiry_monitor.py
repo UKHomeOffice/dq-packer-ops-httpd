@@ -17,8 +17,8 @@ CONFIG = Config(
     )
 )
 
-get_expiry = os.getenv('get_expiry_command')
-#get_expiry = "openssl x509 -enddate -noout -in /etc/letsencrypt/live/analysis.notprod.dq.homeoffice.gov.uk/cert.pem"
+#get_expiry = os.getenv('get_expiry_command')
+get_expiry = "openssl x509 -enddate -noout -in /etc/letsencrypt/live/analysis.notprod.dq.homeoffice.gov.uk/cert.pem"
 expiry_file = "/etc/letsencrypt/ssl_expire_script/cert_expiry.txt"
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
