@@ -42,16 +42,16 @@
         recurse: yes
         mode: 700
 
-    - name: Install Python3 for cert expire script to run
-      raw: yum -y install python3
-      when: check_python.rc != 0
+    - service:
+        name: httpd
+        enabled: yes
+        state: started
 
-    - name: Install boto3 and botocore with pip3 module
-    pip:
-      name:
-      - boto3
-      - botocore
-      executable: pip-3.7
+    - name: Install python3 for cert-expiry-script to run
+      raw: yum install -y python36 && yum install -y python36-devel && yum install -y python36-setuptools && easy_install-3.6 pip
+
+    - name: Install boto3 for cert-expiry-script to run
+      raw: pip3 install boto3
 
     - name: Create expire script directory and file
       copy:
@@ -59,19 +59,12 @@
         dest: /etc/letsencrypt/ssl_expire_script
         mode: 700
 
-    - name: Create cronjob to run Tableau to S3 backup script every day at 7PM
+    - name: Create cronjob for cert-expiry-script to run 9am everyday
       cron:
         name: Check Certificate Expiry Status
-        weekday: *
         minute: 0
         hour: 9
         job: . /root/.bashrc && /bin/python3 /etc/letsencrypt/ssl_expire_script/cert_expiry_monitor.py
-
-
-    - service:
-        name: httpd
-        enabled: yes
-        state: started
 
     - name: Configure SELinux for Apache
       shell: '{{ item }}'
