@@ -18,7 +18,7 @@ CONFIG = Config(
 )
 
 get_expiry = os.getenv('GET_EXPIRY_COMMAND')
-expiry_file = "/etc/letsencrypt/ssl_expire_script/cert_expiry.txt"
+expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
 
