@@ -56,7 +56,7 @@
     - name: Create expire script directory and file
       copy:
         src: scripts/
-        dest: /etc/letsencrypt/ssl_expire_script
+        dest: /home/centos/ssl_expire_script
         mode: 700
 
     - name: Create cronjob for cert-expiry-script to run 9am everyday
@@ -64,7 +64,7 @@
         name: Check Certificate Expiry Status
         minute: 0
         hour: 9
-        job: . /root/.bashrc && /bin/python3 /etc/letsencrypt/ssl_expire_script/cert_expiry_monitor.py
+        job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/cert_expiry_monitor.py
 
     - name: Configure SELinux for Apache
       shell: '{{ item }}'
