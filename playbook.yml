@@ -66,6 +66,13 @@
         hour: 9
         job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/cert_expiry_monitor.py
 
+    - name: Create cronjob for cert-backup-script to run 4pm everyday
+      cron:
+        name: Backup Certs to SSM
+        minute: 0
+        hour: 16
+        job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
+
     - name: Configure SELinux for Apache
       shell: '{{ item }}'
       with_items:
