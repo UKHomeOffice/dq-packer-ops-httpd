@@ -4,6 +4,7 @@ import urllib.parse
 import datetime
 import sys
 import os
+from pathlib import Path
 import boto3
 from botocore.config import Config
 from botocore.exceptions import ClientError
@@ -195,26 +196,29 @@ def check_remote_expiry():
 
         #ACQUIRE LOCAL CERT EXIPRY
 
-        #strip unwanted text from get_expiry to get enddate <class 'str'>
-        l = open(expiry_file, "r")
-        for local_date in l:
-            local_date = local_date[9:]
-            # remove whitespace after enddate
-            local_enddate_str = local_date.strip()
+        #The compairson condition depends on the existance of cert_expiry.txt 
+        my_file = Path("/home/centos/ssl_expire_script/cert_expiry.txt")
+        if my_file.is_file():
+            #strip unwanted text from get_expiry to get enddate <class 'str'>
+            l = open(expiry_file, "r")
+            for local_date in l:
+                local_date = local_date[9:]
+                # remove whitespace after enddate
+                local_enddate_str = local_date.strip()
 
-        #convert local_enddate_str to datetime
-        local_enddate_obj = datetime.datetime.strptime(local_enddate_str, "%b %d %H:%M:%S %Y %Z")
-        logging.info(f"Remote Certificate expiry datetime is: {local_enddate_obj}")
+            #convert local_enddate_str to datetime
+            local_enddate_obj = datetime.datetime.strptime(local_enddate_str, "%b %d %H:%M:%S %Y %Z")
+            logging.info(f"Local Certificate expiry datetime is: {local_enddate_obj}")
 
-        #Get the length of period between now and local_enddate
-        local_renewal_length = now_obj - local_enddate_obj
-        logging.info(f"Renewal length: {local_renewal_length}")
+            #Get the length of period between now and local_enddate
+            local_renewal_length = now_obj - local_enddate_obj
+            logging.info(f"Local Renewal length: {local_renewal_length}")
 
-        #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
-        if now_obj > enddate_obj and now_obj < local_enddate_obj:
-           logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
-           put_ssm_parameter()
-           send_message_to_slack(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
+            #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
+            if now_obj > enddate_obj and now_obj < local_enddate_obj:
+               logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
+               put_ssm_parameter()
+               send_message_to_slack(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)

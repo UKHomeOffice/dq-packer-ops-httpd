@@ -107,13 +107,14 @@
         name: centos
 
     - name: Transfer the script
-      copy: src=templates/gets3content.sh dest=/home/centos mode=0770
+      copy: src=scripts/gets3content.py dest=/home/centos mode=0770
 
     - name: Cron script copying HTTPD config from S3 and reloading gracefully
       cron:
+        name: Pull httpd config files s3
         minute: "*"
         hour: "*"
-        job: source /root/.bashrc && /home/centos/gets3content.sh
+        job: source /root/.bashrc && python3 /home/centos/gets3content.py
 
     - user:
         name: apache
