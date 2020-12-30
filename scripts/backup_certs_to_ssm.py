@@ -59,7 +59,7 @@ def send_message_to_slack(text):
 
     try:
         post = {
-            "text": ":fire: :sad_parrot: *SSL Certificate Expiration Status for HTTPD Proxy:* The Letsencrypt Cert needs renewing :sad_parrot: :fire:",
+            "text": ":fire: :sad_parrot: *SSL Certificate BACKUP SCRIPT Status for HTTPD Proxy:* :sad_parrot: :fire:",
             "attachments": [
                 {
                     "text": "{0}".format(text),
@@ -210,11 +210,11 @@ def check_remote_expiry():
         local_renewal_length = now_obj - local_enddate_obj
         logging.info(f"Renewal length: {local_renewal_length}")
 
-        #if the current time is greater than the enddate send message to slack
+        #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
         if now_obj > enddate_obj and now_obj < local_enddate_obj:
-           logging.info(f"Your REMOTE SSL Certificates haproxy_server_instance_profile expired by {renewal_length} . Uploaded local certs to remote ssm")
+           logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
            put_ssm_parameter()
-           send_message_to_slack(f"Your REMOTE SSL Certificates haproxy_server_instance_profile expired by {renewal_length} . Uploaded local certs to remote ssm")
+           send_message_to_slack(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
