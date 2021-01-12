@@ -207,6 +207,66 @@
         group: root
         mode: 0755
 
+    - name: Download cloudwatch agent
+      get_url:
+        url: https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm
+        dest: /tmp/amazon-cloudwatch-agent.rpm
+        mode: "+x"
+
+    - name: Install cloudwatch agent
+      yum:
+        name: /tmp/amazon-cloudwatch-agent.rpm
+        state: present
+
+    - name: Cloudwatch Agent config
+      copy:
+        dest: /opt/aws/amazon-cloudwatch-agent/bin/config.json
+        content: |
+                  {
+                  "agent": {
+                          "metrics_collection_interval": 60,
+                          "run_as_user": "centos"
+                  },
+                  "metrics": {
+                          "append_dimensions": {
+                                  "InstanceId": "${aws:InstanceId}",
+                          },
+                          "metrics_collected": {
+                                  "disk": {
+                                          "measurement": [
+                                                  "used_percent",
+                                                  "inodes_free"
+                                          ],
+                                          "metrics_collection_interval": 60,
+                                          "resources": [
+                                                  "*"
+                                          ]
+                                  },
+                                  "diskio": {
+                                          "measurement": [
+                                                  "io_time"
+                                          ],
+                                          "metrics_collection_interval": 60,
+                                          "resources": [
+                                                  "*"
+                                          ]
+                                  },
+                                  "mem": {
+                                          "measurement": [
+                                                  "mem_used_percent"
+                                          ],
+                                          "metrics_collection_interval": 60
+                                  },
+                                  "swap": {
+                                    "measurement": [
+                                            "swap_used_percent"
+                                    ],
+                                    "metrics_collection_interval": 60
+                                          }
+                                  }
+                          }
+                  }
+
     - name: Make Cron Job to start awslogs with right region
       cron:
         name: Start awslogs
