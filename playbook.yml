@@ -233,13 +233,13 @@
                           },
                           "metrics_collected": {
                                   "disk": {
+
                                           "measurement": [
-                                                  "used_percent",
-                                                  "inodes_free"
+                                                  "used_percent"
                                           ],
                                           "metrics_collection_interval": 60,
                                           "resources": [
-                                                  "*"
+                                              "/"
                                           ]
                                   },
                                   "diskio": {
@@ -253,7 +253,9 @@
                                   },
                                   "mem": {
                                           "measurement": [
-                                                  "mem_used_percent"
+                                                  "mem_used_percent",
+                                                  "mem_available_percent",
+                                                  "mem_total"
                                           ],
                                           "metrics_collection_interval": 60
                                   },
