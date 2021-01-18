@@ -233,7 +233,6 @@
                           },
                           "metrics_collected": {
                                   "disk": {
-
                                           "measurement": [
                                                   "used_percent"
                                           ],
