@@ -19,7 +19,7 @@ pipeline:
     environment:
     commands:
       - export HOME=/home/packer
-      - packer build packer.json
+      #- packer build packer.json
       - export aws_access_key_id=$$AWS_ACCESS_KEY_ID
       - export aws_secret_access_key=$$AWS_SECRET_ACCESS_KEY
     secrets:
@@ -38,7 +38,7 @@ pipeline:
       - export region=eu-west-2
       - export HOME=/home/packer
       - cd /home/packer
-      - ./build.sh
+      #- ./build.sh
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
@@ -55,7 +55,7 @@ pipeline:
       - export region=eu-west-2
       - export HOME=/home/packer
       - cd /home/packer
-      - ./build.sh
+      #- ./build.sh
     secrets:
       - PROD_ACC_ID
       - PROD_ACC_KEY
