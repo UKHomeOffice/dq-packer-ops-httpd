@@ -228,6 +228,7 @@
                           "run_as_user": "centos"
                   },
                   "metrics": {
+                          "namespace": "CWAgent",
                           "append_dimensions": {
                                   "InstanceId": "${aws:InstanceId}",
                           },
