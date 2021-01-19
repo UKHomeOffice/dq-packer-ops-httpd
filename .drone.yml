@@ -38,7 +38,7 @@ pipeline:
       - export region=eu-west-2
       - export HOME=/home/packer
       - cd /home/packer
-      #- ./build.sh
+      #- ./build.sh d
     secrets:
       - NOTPROD_ACC_ID
       - NOTPROD_ACC_KEY
