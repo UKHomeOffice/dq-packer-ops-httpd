@@ -2,6 +2,7 @@
 kind: pipeline
 name: default
 type: kubernetes
+
 platform:
   os: linux
   arch: amd64
@@ -31,9 +32,9 @@ steps:
   - export aws_secret_access_key=$$AWS_SECRET_ACCESS_KEY
   environment:
     AWS_ACCESS_KEY_ID:
-      from_secret: AWS_ACCESS_KEY_ID
+      from_secret: CI_ACCESS_KEY_ID
     AWS_SECRET_ACCESS_KEY:
-      from_secret: AWS_SECRET_ACCESS_KEY
+      from_secret: CI_SECRET_ACCESS_KEY
   when:
     event:
     - push
