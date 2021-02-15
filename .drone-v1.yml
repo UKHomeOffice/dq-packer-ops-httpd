@@ -1,6 +1,6 @@
 ---
 kind: pipeline
-name: paker-ops-httpd
+name: packer-ops-httpd
 type: kubernetes
 
 platform:
