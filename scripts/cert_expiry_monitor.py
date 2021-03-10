@@ -145,6 +145,7 @@ def check_expiry():
         #if we have more than 14 days left to renew then we are good
         if  renewal_length < datetime.timedelta(days=14):
             logging.info(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
+            send_message_to_slack(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
