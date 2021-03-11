@@ -129,7 +129,7 @@ def check_expiry():
         logging.info(f"Current datetime is: {now_obj}")
 
         #Get the length of period between now and enddate
-        renewal_length = now_obj - enddate_obj
+        renewal_length = enddate_obj - now_obj
         logging.info(f"Renewal length: {renewal_length}")
 
         #if the current time is greater than the enddate send message to slack
