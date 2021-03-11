@@ -27,8 +27,8 @@ steps:
   image: quay.io/ukhomeofficedigital/dq-packer-ansible
   commands:
   - export HOME=/home/packer
-  - export aws_access_key_id=$${CI_ACCESS_KEY_ID}
-  - export aws_secret_access_key=${CI_SECRET_ACCESS_KEY}
+  - export aws_access_key_id=$${AWS_ACCESS_KEY_ID}
+  - export aws_secret_access_key=${AWS_SECRET_ACCESS_KEY}
   - packer build packer.json
   environment:
     AWS_ACCESS_KEY_ID:
