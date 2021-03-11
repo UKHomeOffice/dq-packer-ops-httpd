@@ -26,8 +26,8 @@ steps:
   pull: if-not-exists
   image: quay.io/ukhomeofficedigital/dq-packer-ansible
   commands:
-  - echo $${AWS_ACCESS_KEY_ID}
-  - echo $${CI_ACCESS_KEY_ID}
+  - echo $AWS_ACCESS_KEY_ID
+  - echo $CI_ACCESS_KEY_ID
   - export HOME=/home/packer
   # - packer build packer.json
   - export aws_access_key_id=$$AWS_ACCESS_KEY_ID
