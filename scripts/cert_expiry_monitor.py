@@ -17,6 +17,8 @@ CONFIG = Config(
     )
 )
 
+logging.basicConfig(filename='/home/centos/ssl_expire_script/expiry.log', level=logging.INFO)
+
 get_expiry = os.getenv('GET_EXPIRY_COMMAND')
 expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
 now = datetime.datetime.today()
@@ -132,20 +134,19 @@ def check_expiry():
         renewal_length = enddate_obj - now_obj
         logging.info(f"Renewal length: {renewal_length}")
 
-        #if the current time is greater than the enddate send message to slack
-        if now_obj > enddate_obj:
-           logging.info(f"Your SSL Certificates haproxy_server_instance_profile expired by {renewal_length}")
-           send_message_to_slack(f"Your SSL Certificates haproxy_server_instance_profile expired by {renewal_length}")
+        #if we have 0 days to renew send message to slack
+        if renewal_length <= datetime.timedelta(days=0):
+           logging.info(f"Your SSL Certificates for haproxy_server_instance has expired by {renewal_length} days")
+           send_message_to_slack(f"Your SSL Certificates for haproxy_server_instance has expired by {renewal_length} days")
 
-        #if we have less than 15 days left to renew send message to slack
-        if  renewal_length >= datetime.timedelta(days=15):
-            logging.info(f"Your SSL Certificates haproxy_server_instance_profile expired by {renewal_length}")
-            send_message_to_slack(f"Your SSL Certificates haproxy_server_instance_profile expired by {renewal_length}")
+        #if we have between 1 and 15 days left to renew send message to slack
+        if  renewal_length <= datetime.timedelta(days=15) and renewal_length > datetime.timedelta(days=0):
+            logging.info(f"Your SSL Certificates for haproxy_server_instance is about to expire in {renewal_length} days")
+            send_message_to_slack(f"Your SSL Certificates for haproxy_server_instance is about to expire in {renewal_length} days")
 
-        #if we have more than 14 days left to renew then we are good
-        if  renewal_length < datetime.timedelta(days=14):
+        #if we have more than 15 days left to renew then we are good
+        if  renewal_length > datetime.timedelta(days=15):
             logging.info(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
-            send_message_to_slack(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
