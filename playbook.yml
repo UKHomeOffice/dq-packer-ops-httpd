@@ -235,12 +235,17 @@
                           "metrics_collected": {
                                   "disk": {
                                           "measurement": [
-                                                  "disk_used_percent"
+                                                  "used_percent"
                                           ],
                                           "metrics_collection_interval": 60,
                                           "resources": [
-                                                  "/"
-                                          ]
+                                                  "*"
+                                          ],
+                                          "ignore_file_system_types": [
+                                                  "devtmpfs",
+                                                  "tmpfs"
+                                          ],
+                                          "drop_device": true
                                   },
                                   "diskio": {
                                           "measurement": [
