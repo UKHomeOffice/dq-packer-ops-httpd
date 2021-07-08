@@ -18,15 +18,14 @@ CONFIG = Config(
     )
 )
 
-expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
-
+expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
 get_remote_expiry = os.getenv('GET_REMOTE_EXPIRY_COMMAND')
 remote_expiry_file = "/home/centos/ssl_expire_script/remote_cert_expiry.txt"
-pem_dir_one = os.getenv('PEM_DIR_ONE')
-pem_dir_two = os.getenv('PEM_DIR_TWO')
-pem_dir_three = os.getenv('PEM_DIR_THREE')
+bucket = os.getenv('BUCKET')
+s3_file_landing = os.getenv('S3_FILE_LANDING')
+live_certs = os.getenv('LIVE_CERTS')
 
 
 def error_handler(lineno, error, fail=True):
@@ -115,65 +114,12 @@ def send_message_to_slack(text):
             sys.exc_info()[2].tb_lineno)
         logging.error(str(err))
 
-def put_ssm_parameter():
-
-    try:
-        ssm = boto3.client('ssm')
-
-        with open(pem_dir_one, 'r') as f:
-             file1 = f.read()
-
-        response = ssm.put_parameter(
-                Name='analysis_proxy_certificate',
-                Description='automated backup',
-                Value=file1,
-                Type='SecureString',
-                Overwrite=True,
-                Tier='Standard',
-                DataType='text'
-        )
-
-        with open(pem_dir_two, 'r') as f:
-             file1 = f.read()
-
-        response = ssm.put_parameter(
-                Name='analysis_proxy_certificate_fullchain',
-                Description='automated backup',
-                Value=file1,
-                Type='SecureString',
-                Overwrite=True,
-                Tier='Standard',
-                DataType='text'
-        )
-
-        with open(pem_dir_three, 'r') as f:
-             file1 = f.read()
-
-        response = ssm.put_parameter(
-                Name='analysis_proxy_certificate_key',
-                Description='automated backup',
-                Value=file1,
-                Type='SecureString',
-                Overwrite=True,
-                Tier='Standard',
-                DataType='text'
-        )
-    except Exception as err:
-        error_handler(sys.exc_info()[2].tb_lineno, err)
 
 def check_remote_expiry():
 
     try:
-        #download remote Cert from ssm parameter and store locally
-        ssm = boto3.client('ssm')
-        parameter = ssm.get_parameter(Name='analysis_proxy_certificate', WithDecryption=True)
-
-        with open('/home/centos/ssl_expire_script/remote_cert.pem', 'w') as f:
-             sys.stdout = f
-             print(parameter['Parameter']['Value'])
-
+        os.system(f"aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
         os.system(f"sudo {get_remote_expiry} > {remote_expiry_file}")
-
 
         #strip unwanted text from get_expiry to get enddate <class 'str'>
         f = open(remote_expiry_file, "r")
@@ -191,12 +137,12 @@ def check_remote_expiry():
         logging.info(f"Current datetime is: {now_obj}")
 
         #Get the length of period between now and enddate
-        renewal_length = now_obj - enddate_obj
+        renewal_length =  enddate_obj - now_obj
         logging.info(f"Remote Renewal length: {renewal_length}")
 
         #ACQUIRE LOCAL CERT EXIPRY
 
-        #The compairson condition depends on the existance of cert_expiry.txt 
+        #The compairson condition depends on the existance of cert_expiry.txt
         my_file = Path("/home/centos/ssl_expire_script/cert_expiry.txt")
         if my_file.is_file():
             #strip unwanted text from get_expiry to get enddate <class 'str'>
@@ -211,14 +157,16 @@ def check_remote_expiry():
             logging.info(f"Local Certificate expiry datetime is: {local_enddate_obj}")
 
             #Get the length of period between now and local_enddate
-            local_renewal_length = now_obj - local_enddate_obj
+            local_renewal_length = local_enddate_obj - now_obj
             logging.info(f"Local Renewal length: {local_renewal_length}")
 
             #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
             if now_obj > enddate_obj and now_obj < local_enddate_obj:
-               logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
-               put_ssm_parameter()
-               send_message_to_slack(f"REMOTE SSL Certificates expired by {renewal_length} . Updated certs are present locally. Uploaded local certs to remote ssm")
+                file_list = os.listdir(live_certs)
+                for i in file_list:
+                    os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
+                    logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
+
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
