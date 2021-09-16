@@ -56,8 +56,8 @@
     - name: Install concurrent.futures standard library module to Python 2
       raw: pip install futures
 
-    - name: Install AWSCLI
-      raw: pip3 install awscli
+    - name: Install urllib3
+      raw: pip install urllib3
 
     - name: Create expire script directory and file
       copy:
@@ -86,11 +86,11 @@
         - setsebool httpd_can_network_relay on
         - setsebool -P httpd_can_network_relay on
 
-    # - name: Pip Install AWSCLI
-    #   pip: 'name={{ item }}'
-    #   with_items:
-    #     - AWSCLI
-    #   become: true
+    - name: Pip Install AWSCLI
+      pip: 'name={{ item }}'
+      with_items:
+        - AWSCLI
+      become: true
 
     - name: update all libraries, excluding python-urllib
       yum:
