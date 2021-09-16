@@ -53,6 +53,9 @@
     - name: Install boto3 for cert-expiry-script to run
       raw: pip3 install boto3
 
+    - name: Install concurrent.futures standard library module to Python 2
+      raw: pip install futures
+
     - name: Create expire script directory and file
       copy:
         src: scripts/
