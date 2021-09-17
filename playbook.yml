@@ -56,9 +56,6 @@
     - name: Install concurrent.futures standard library module to Python 2
       raw: pip install futures
 
-    - name: Install urllib3
-      raw: pip install urllib3
-
     - name: Create expire script directory and file
       copy:
         src: scripts/
@@ -86,20 +83,20 @@
         - setsebool httpd_can_network_relay on
         - setsebool -P httpd_can_network_relay on
 
-    - name: Pip Install AWSCLI
-      pip: 'name={{ item }}'
-      with_items:
-        - AWSCLI
-      become: true
-
     - name: update all libraries, excluding python-urllib
       yum:
         name: '*'
         state: latest
         exclude: python-urllib*
 
+    - name: Pip Install modules for python3
+      pip:
+        name: AWSCLI,lxml
+        executable: /usr/local/bin/pip3
+      become: true
+
     - name: GET config files from DQ-config-bucket
-      shell: aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
+      shell: /usr/local/bin/aws aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
 
     - name: Move config files to appropriate locations
       shell: '{{ item }}'
