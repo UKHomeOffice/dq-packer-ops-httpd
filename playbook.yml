@@ -102,11 +102,8 @@
         executable: /usr/local/bin/pip3
       become: true
 
-    - name: Update AWS CLI
-      raw: pip3 install awscli --upgrade --user
-
     - name: GET config files from DQ-config-bucket
-      shell: /usr/local/bin/aws aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
+      shell: /usr/local/bin/aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
 
     - name: Move config files to appropriate locations
       shell: '{{ item }}'
