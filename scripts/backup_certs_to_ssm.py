@@ -18,6 +18,8 @@ CONFIG = Config(
     )
 )
 
+logging.basicConfig(filename='/home/ssl_expire_script/backup.log', level=logging.INFO)
+
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
 expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
@@ -118,7 +120,7 @@ def send_message_to_slack(text):
 def check_remote_expiry():
 
     try:
-        os.system(f"aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
+        os.system(f"/usr/local/bin/aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
         os.system(f"sudo {get_remote_expiry} > {remote_expiry_file}")
 
         #strip unwanted text from get_expiry to get enddate <class 'str'>
@@ -164,7 +166,7 @@ def check_remote_expiry():
             if now_obj > enddate_obj and now_obj < local_enddate_obj:
                 file_list = os.listdir(live_certs)
                 for i in file_list:
-                    os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
+                    os.system(f"/usr/local/bin/aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
                     logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
 
 

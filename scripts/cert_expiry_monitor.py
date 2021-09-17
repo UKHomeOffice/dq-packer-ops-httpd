@@ -17,10 +17,10 @@ CONFIG = Config(
     )
 )
 
-logging.basicConfig(filename='/home/centos/ssl_expire_script/expiry.log', level=logging.INFO)
+logging.basicConfig(filename='/home/ssl_expire_script/expiry.log', level=logging.INFO)
 
 get_expiry = os.getenv('GET_EXPIRY_COMMAND')
-expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
+expiry_file = "/home/ssl_expire_script/cert_expiry.txt"
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
 
@@ -147,6 +147,7 @@ def check_expiry():
         #if we have more than 15 days left to renew then we are good
         if  renewal_length > datetime.timedelta(days=15):
             logging.info(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
+            send_message_to_slack(f"Certificates are Valid: {renewal_length} Remaning before expiry approaches...")
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
