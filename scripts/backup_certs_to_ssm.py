@@ -18,7 +18,7 @@ CONFIG = Config(
     )
 )
 
-logging.basicConfig(filename='/home/ssl_expire_script/backup.log', level=logging.INFO)
+logging.basicConfig(filename='/home/centos/ssl_expire_script/backup.log', level=logging.INFO)
 
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
