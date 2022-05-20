@@ -48,7 +48,14 @@
         state: started
 
     - name: Install python3 for cert-expiry-script to run
-      raw: yum install -y python37 && yum install -y python37-devel && yum install -y python37-setuptools && easy_install-3.6 pip
+      raw: yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel \
+           cd /usr/src \
+           wget https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz \
+           tar xzf Python-3.7.11.tgz \
+           cd Python-3.7.11  \
+           ./configure --enable-optimizations \
+           make altinstall \
+           rm /usr/src/Python-3.7.11.tgz 
 
     - name: Install boto3 for cert-expiry-script to run
       raw: pip3 install boto3
