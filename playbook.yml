@@ -47,274 +47,268 @@
         enabled: yes
         state: started
 
-    - name: Install python3 for cert-expiry-script to run
+    - name: Install python37 for cert-expiry-script to run
       raw: yum install gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel \
-           cd /usr/src \
-           wget https://www.python.org/ftp/python/3.7.11/Python-3.7.11.tgz \
-           tar xzf Python-3.7.11.tgz \
-           cd Python-3.7.11  \
-           ./configure --enable-optimizations \
-           make altinstall \
-           rm /usr/src/Python-3.7.11.tgz 
+           cd /usr/src | wget https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz
 
-    - name: Install boto3 for cert-expiry-script to run
-      raw: pip3 install boto3
+    # - name: Install boto3 for cert-expiry-script to run
+    #   raw: pip3 install boto3
+    #
+    # - name: Install concurrent.futures standard library module to Python 2
+    #   raw: pip install futures
+    #
+    # - name: Create expire script directory and file
+    #   copy:
+    #     src: scripts/
+    #     dest: /home/centos/ssl_expire_script
+    #     mode: 700
+    #
+    # - name: Create cronjob for cert-expiry-script to run 9am everyday
+    #   cron:
+    #     name: Check Certificate Expiry Status
+    #     minute: 0
+    #     hour: 9
+    #     job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/cert_expiry_monitor.py
+    #
+    # - name: Create cronjob for cert-backup-script to run 1am everyday
+    #   cron:
+    #     name: Backup Certs to SSM
+    #     minute: 0
+    #     hour: 1
+    #     job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
+    #
+    # - name: Configure SELinux for Apache
+    #   shell: '{{ item }}'
+    #   with_items:
+    #     - semanage permissive -a httpd_t
+    #     - setsebool httpd_can_network_relay on
+    #     - setsebool -P httpd_can_network_relay on
+    #
+    # - name: update all libraries, excluding python-urllib
+    #   yum:
+    #     name: '*'
+    #     state: latest
+    #     exclude: python-urllib*
+    #
+    # - name: Upgrade to latest Pip3
+    #   pip:
+    #     name: pip
+    #     state: latest
+    #     executable: /usr/local/bin/pip3
+    #   become: true
+    #
+    # - name: Pip Install modules for python3
+    #   pip:
+    #     name: AWSCLI,lxml
+    #     executable: /usr/local/bin/pip3
+    #   become: true
+    #
+    # - name: GET config files from DQ-config-bucket
+    #   shell: /usr/local/bin/aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
+    #
+    # - name: Move config files to appropriate locations
+    #   shell: '{{ item }}'
+    #   with_items:
+    #     - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
+    #     - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
+    #     - cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini
+    #     - chmod 644 /etc/letsencrypt/config.ini
+    #
+    # - user:
+    #     name: centos
+    #
+    # - name: Transfer the gets3content script
+    #   copy: src=gets3content/gets3content.py dest=/home/centos mode=0770
+    #
+    # - name: Cron script copying HTTPD config from S3 and reloading gracefully
+    #   cron:
+    #     name: Pull httpd config files s3
+    #     minute: "*"
+    #     hour: "*"
+    #     job: source /root/.bashrc && python3 /home/centos/gets3content.py
+    #
+    # - user:
+    #     name: apache
+    #
+    # - name: Download cloudwatch logs agent
+    #   get_url:
+    #     url: https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
+    #     dest: /tmp/awslogs-agent-setup.py
+    #     mode: "+x"
+    #
+    # - name: Cloudwatch logs config
+    #   copy:
+    #     dest: /tmp/cwlogs.conf
+    #     content: |
+    #       [general]
+    #       state_file = /var/awslogs/state/agent-state
+    #       [/var/log/messages]
+    #       file = /var/log/messages
+    #       log_group_name = /HTTPD/messages
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %b %d %H:%M:%S
+    #       [/HTTPD/cloud-init]
+    #       file = /var/log/cloud-init.log
+    #       log_group_name = /HTTPD/cloud-init
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/cloud-init/output]
+    #       file = /var/log/cloud-init-output.log
+    #       log_group_name = /HTTPD/cloud-init/output
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/cron]
+    #       file = /var/log/cron
+    #       log_group_name = /HTTPD/cron
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/secure]
+    #       file = /var/log/secure
+    #       log_group_name = /HTTPD/secure
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/yum]
+    #       file = /var/log/yum.log
+    #       log_group_name = /HTTPD/yum
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/httpd_access_log]
+    #       file = /var/log/httpd/access_log
+    #       log_group_name = /HTTPD/httpd_access_log
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/httpd_error_log]
+    #       file = /var/log/httpd/error_log
+    #       log_group_name = /HTTPD/httpd_error_log
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/httpd_ssl_access_log]
+    #       file = /var/log/httpd/ssl_access_log
+    #       log_group_name = /HTTPD/httpd_ssl_access_log
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/httpd_ssl_error_log]
+    #       file = /var/log/httpd/ssl_error_log
+    #       log_group_name = /HTTPD/httpd_ssl_error_log
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/httpd_ssl_request_log]
+    #       file = /var/log/httpd/ssl_request_log
+    #       log_group_name = /HTTPD/httpd_ssl_request_log
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #       [/HTTPD/syslog]
+    #       file = /var/log/syslog
+    #       log_group_name = /HTTPD/syslog
+    #       log_stream_name = {instance_id}
+    #       datetime_format = %Y-%m-%d %H:%M:%S,%f
+    #
+    # - name: Install cloudwatch log agent
+    #   environment:
+    #     LC_ALL: C
+    #   shell: /tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf
+    #   args:
+    #     creates: /var/awslogs/etc/aws.conf
+    #
+    # - name: Copy cloudwatch logs starter
+    #   copy:
+    #     src: startcloudwatchlogs.sh
+    #     dest: /usr/bin/startcloudwatchlogs.sh
+    #     owner: root
+    #     group: root
+    #     mode: 0755
+    #
+    # - name: Download cloudwatch agent
+    #   get_url:
+    #     url: https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm
+    #     dest: /tmp/amazon-cloudwatch-agent.rpm
+    #     mode: "+x"
+    #
+    # - name: Install cloudwatch agent
+    #   yum:
+    #     name: /tmp/amazon-cloudwatch-agent.rpm
+    #     state: present
+    #
+    # - name: Cloudwatch Agent config
+    #   copy:
+    #     dest: /opt/aws/amazon-cloudwatch-agent/bin/config.json
+    #     content: |
+    #               {
+    #               "agent": {
+    #                       "metrics_collection_interval": 60,
+    #                       "run_as_user": "centos"
+    #               },
+    #               "metrics": {
+    #                       "namespace": "CWAgent",
+    #                       "append_dimensions": {
+    #                               "InstanceId": "${aws:InstanceId}"
+    #                       },
+    #                       "metrics_collected": {
+    #                               "disk": {
+    #                                       "measurement": [
+    #                                               "used_percent"
+    #                                       ],
+    #                                       "metrics_collection_interval": 60,
+    #                                       "resources": [
+    #                                               "*"
+    #                                       ],
+    #                                       "ignore_file_system_types": [
+    #                                               "devtmpfs",
+    #                                               "tmpfs"
+    #                                       ],
+    #                                       "drop_device": true
+    #                               },
+    #                               "diskio": {
+    #                                       "measurement": [
+    #                                               "io_time"
+    #                                       ],
+    #                                       "metrics_collection_interval": 60,
+    #                                       "resources": [
+    #                                               "*"
+    #                                       ]
+    #                               },
+    #                               "mem": {
+    #                                       "measurement": [
+    #                                               "mem_used_percent",
+    #                                               "mem_available_percent",
+    #                                               "mem_used",
+    #                                               "mem_cached",
+    #                                               "mem_total"
+    #                                       ],
+    #                                       "metrics_collection_interval": 60
+    #                               },
+    #                               "swap": {
+    #                                 "measurement": [
+    #                                         "swap_used_percent"
+    #                                 ],
+    #                                 "metrics_collection_interval": 60
+    #                                       }
+    #                               }
+    #                       }
+    #               }
 
-    - name: Install concurrent.futures standard library module to Python 2
-      raw: pip install futures
-
-    - name: Create expire script directory and file
-      copy:
-        src: scripts/
-        dest: /home/centos/ssl_expire_script
-        mode: 700
-
-    - name: Create cronjob for cert-expiry-script to run 9am everyday
-      cron:
-        name: Check Certificate Expiry Status
-        minute: 0
-        hour: 9
-        job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/cert_expiry_monitor.py
-
-    - name: Create cronjob for cert-backup-script to run 1am everyday
-      cron:
-        name: Backup Certs to SSM
-        minute: 0
-        hour: 1
-        job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
-
-    - name: Configure SELinux for Apache
-      shell: '{{ item }}'
-      with_items:
-        - semanage permissive -a httpd_t
-        - setsebool httpd_can_network_relay on
-        - setsebool -P httpd_can_network_relay on
-
-    - name: update all libraries, excluding python-urllib
-      yum:
-        name: '*'
-        state: latest
-        exclude: python-urllib*
-
-    - name: Upgrade to latest Pip3
-      pip:
-        name: pip
-        state: latest
-        executable: /usr/local/bin/pip3
-      become: true
-
-    - name: Pip Install modules for python3
-      pip:
-        name: AWSCLI,lxml
-        executable: /usr/local/bin/pip3
-      become: true
-
-    - name: GET config files from DQ-config-bucket
-      shell: /usr/local/bin/aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
-
-    - name: Move config files to appropriate locations
-      shell: '{{ item }}'
-      with_items:
-        - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
-        - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
-        - cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini
-        - chmod 644 /etc/letsencrypt/config.ini
-
-    - user:
-        name: centos
-
-    - name: Transfer the gets3content script
-      copy: src=gets3content/gets3content.py dest=/home/centos mode=0770
-
-    - name: Cron script copying HTTPD config from S3 and reloading gracefully
-      cron:
-        name: Pull httpd config files s3
-        minute: "*"
-        hour: "*"
-        job: source /root/.bashrc && python3 /home/centos/gets3content.py
-
-    - user:
-        name: apache
-
-    - name: Download cloudwatch logs agent
-      get_url:
-        url: https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
-        dest: /tmp/awslogs-agent-setup.py
-        mode: "+x"
-
-    - name: Cloudwatch logs config
-      copy:
-        dest: /tmp/cwlogs.conf
-        content: |
-          [general]
-          state_file = /var/awslogs/state/agent-state
-          [/var/log/messages]
-          file = /var/log/messages
-          log_group_name = /HTTPD/messages
-          log_stream_name = {instance_id}
-          datetime_format = %b %d %H:%M:%S
-          [/HTTPD/cloud-init]
-          file = /var/log/cloud-init.log
-          log_group_name = /HTTPD/cloud-init
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/cloud-init/output]
-          file = /var/log/cloud-init-output.log
-          log_group_name = /HTTPD/cloud-init/output
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/cron]
-          file = /var/log/cron
-          log_group_name = /HTTPD/cron
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/secure]
-          file = /var/log/secure
-          log_group_name = /HTTPD/secure
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/yum]
-          file = /var/log/yum.log
-          log_group_name = /HTTPD/yum
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/httpd_access_log]
-          file = /var/log/httpd/access_log
-          log_group_name = /HTTPD/httpd_access_log
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/httpd_error_log]
-          file = /var/log/httpd/error_log
-          log_group_name = /HTTPD/httpd_error_log
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/httpd_ssl_access_log]
-          file = /var/log/httpd/ssl_access_log
-          log_group_name = /HTTPD/httpd_ssl_access_log
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/httpd_ssl_error_log]
-          file = /var/log/httpd/ssl_error_log
-          log_group_name = /HTTPD/httpd_ssl_error_log
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/httpd_ssl_request_log]
-          file = /var/log/httpd/ssl_request_log
-          log_group_name = /HTTPD/httpd_ssl_request_log
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-          [/HTTPD/syslog]
-          file = /var/log/syslog
-          log_group_name = /HTTPD/syslog
-          log_stream_name = {instance_id}
-          datetime_format = %Y-%m-%d %H:%M:%S,%f
-
-    - name: Install cloudwatch log agent
-      environment:
-        LC_ALL: C
-      shell: /tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf
-      args:
-        creates: /var/awslogs/etc/aws.conf
-
-    - name: Copy cloudwatch logs starter
-      copy:
-        src: startcloudwatchlogs.sh
-        dest: /usr/bin/startcloudwatchlogs.sh
-        owner: root
-        group: root
-        mode: 0755
-
-    - name: Download cloudwatch agent
-      get_url:
-        url: https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm
-        dest: /tmp/amazon-cloudwatch-agent.rpm
-        mode: "+x"
-
-    - name: Install cloudwatch agent
-      yum:
-        name: /tmp/amazon-cloudwatch-agent.rpm
-        state: present
-
-    - name: Cloudwatch Agent config
-      copy:
-        dest: /opt/aws/amazon-cloudwatch-agent/bin/config.json
-        content: |
-                  {
-                  "agent": {
-                          "metrics_collection_interval": 60,
-                          "run_as_user": "centos"
-                  },
-                  "metrics": {
-                          "namespace": "CWAgent",
-                          "append_dimensions": {
-                                  "InstanceId": "${aws:InstanceId}"
-                          },
-                          "metrics_collected": {
-                                  "disk": {
-                                          "measurement": [
-                                                  "used_percent"
-                                          ],
-                                          "metrics_collection_interval": 60,
-                                          "resources": [
-                                                  "*"
-                                          ],
-                                          "ignore_file_system_types": [
-                                                  "devtmpfs",
-                                                  "tmpfs"
-                                          ],
-                                          "drop_device": true
-                                  },
-                                  "diskio": {
-                                          "measurement": [
-                                                  "io_time"
-                                          ],
-                                          "metrics_collection_interval": 60,
-                                          "resources": [
-                                                  "*"
-                                          ]
-                                  },
-                                  "mem": {
-                                          "measurement": [
-                                                  "mem_used_percent",
-                                                  "mem_available_percent",
-                                                  "mem_used",
-                                                  "mem_cached",
-                                                  "mem_total"
-                                          ],
-                                          "metrics_collection_interval": 60
-                                  },
-                                  "swap": {
-                                    "measurement": [
-                                            "swap_used_percent"
-                                    ],
-                                    "metrics_collection_interval": 60
-                                          }
-                                  }
-                          }
-                  }
-
-    - name: Make Cron Job to start awslogs with right region
-      cron:
-        name: Start awslogs
-        special_time: reboot
-        job: /usr/bin/startcloudwatchlogs.sh
-
-    - name: Set DNS Resolver Options
-      blockinfile:
-        path: /etc/sysconfig/network
-        block: |
-          RES_OPTIONS="rotate timeout:1 attempts:1"
-
-    - name: Secure sshd_config
-      lineinfile: dest=/etc/ssh/sshd_config
-                  regexp="^PermitRootLogin"
-                  line="PermitRootLogin no"
-                  state=present
-    - lineinfile: dest=/etc/ssh/sshd_config
-                  regexp="^PasswordAuthentication"
-                  line="PasswordAuthentication no"
-                  state=present
-    - lineinfile: dest=/etc/ssh/sshd_config
-                  regexp="^X11Forwarding"
-                  line="X11Forwarding no"
-                  state=present
+    # - name: Make Cron Job to start awslogs with right region
+    #   cron:
+    #     name: Start awslogs
+    #     special_time: reboot
+    #     job: /usr/bin/startcloudwatchlogs.sh
+    #
+    # - name: Set DNS Resolver Options
+    #   blockinfile:
+    #     path: /etc/sysconfig/network
+    #     block: |
+    #       RES_OPTIONS="rotate timeout:1 attempts:1"
+    #
+    # - name: Secure sshd_config
+    #   lineinfile: dest=/etc/ssh/sshd_config
+    #               regexp="^PermitRootLogin"
+    #               line="PermitRootLogin no"
+    #               state=present
+    # - lineinfile: dest=/etc/ssh/sshd_config
+    #               regexp="^PasswordAuthentication"
+    #               line="PasswordAuthentication no"
+    #               state=present
+    # - lineinfile: dest=/etc/ssh/sshd_config
+    #               regexp="^X11Forwarding"
+    #               line="X11Forwarding no"
+    #               state=present
