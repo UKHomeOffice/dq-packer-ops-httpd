@@ -50,11 +50,7 @@
     - name: Install python37 for cert-expiry-script to run
       raw: |
           yum install -y  gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel
-          wget https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz
-          tar -xzf Python-3.7.13.tgz
-          cd Python-3.7.13
-          ./configure --enable-optimizations
-          make altinstall
+          wget https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz || tar -xzf Python-3.7.13.tgz
 
 #     # - name: Install boto3 for cert-expiry-script to run
     #   raw: pip3 install boto3
