@@ -6,51 +6,51 @@
   become: yes
   pre_tasks:
     - name: Install python
-      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
+      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
 
-- name: Install HTTPD
-  hosts: all
-  become: yes
-  tasks:
-    - name: Yum Install Pre Dependencies
-      yum: name={{ item }}
-      with_items:
-        - epel-release
-        - openssl-devel
-        - wget
-        - curl
-      become: true
-
-    - name: Set timezone to Europe/London
-      timezone:
-        name: Europe/London
-
-    - name: Yum install required packages
-      yum: name={{ item }}
-      with_items:
-        - python-pip
-        - cloud-utils
-        - httpd
-        - mod_ssl
-        - python-certbot-apache
-      become: true
-
-    - name: Create certificate folder structure
-      file:
-        path: /etc/letsencrypt/live
-        state: directory
-        recurse: yes
-        mode: 700
-
-    - service:
-        name: httpd
-        enabled: yes
-        state: started
-
-    - name: Install python37 for cert-expiry-script to run
-      raw: yum install  - y libffi-devel  zlib-devel  bzip2-devel  openssl-devel  ncurses-devel  sqlite-devel  readline-devel  tk-devel  gdbm-devel  xz-devel  expat-devel
-
-    # - name: Install boto3 for cert-expiry-script to run
+# - name: Install HTTPD
+#   hosts: all
+#   become: yes
+#   tasks:
+#     - name: Yum Install Pre Dependencies
+#       yum: name={{ item }}
+#       with_items:
+#         - epel-release
+#         - openssl-devel
+#         - wget
+#         - curl
+#       become: true
+#
+#     - name: Set timezone to Europe/London
+#       timezone:
+#         name: Europe/London
+#
+#     - name: Yum install required packages
+#       yum: name={{ item }}
+#       with_items:
+#         - python-pip
+#         - cloud-utils
+#         - httpd
+#         - mod_ssl
+#         - python-certbot-apache
+#       become: true
+#
+#     - name: Create certificate folder structure
+#       file:
+#         path: /etc/letsencrypt/live
+#         state: directory
+#         recurse: yes
+#         mode: 700
+#
+#     - service:
+#         name: httpd
+#         enabled: yes
+#         state: started
+#
+#     - name: Install python37 for cert-expiry-script to run
+#       raw: yum install  - y libffi-devel  zlib-devel  bzip2-devel  openssl-devel  ncurses-devel  sqlite-devel  readline-devel  tk-devel  gdbm-devel  xz-devel  expat-devel
+#
+#     # - name: Install boto3 for cert-expiry-script to run
     #   raw: pip3 install boto3
     #
     # - name: Install concurrent.futures standard library module to Python 2
