@@ -10,7 +10,16 @@
       "secret_key": "{{user `secret_key`}}",
       "region": "eu-west-2",
       "iam_instance_profile": "packer_builder",
-      "source_ami": "ami-0abcdef1234567890"
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "RHEL_HA-8.4.0_HVM-20210504-x86_64-2-Hourly2-GP2",
+          "root-device-type": "ebs"
+        },
+        "owners": [
+          "309956199498"
+        ],
+        "most_recent": true
       },
       "launch_block_device_mappings": [
         {
@@ -21,7 +30,7 @@
         }
       ],
       "ssh_username": "redhat",
-      "instance_type": "t3.micro",
+      "instance_type": "t3a.micro",
       "ami_name": "dq-ops-httpd {{isotime | clean_ami_name}}",
       "ami_users": [
         "483846886818",
