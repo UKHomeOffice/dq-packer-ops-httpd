@@ -10,16 +10,7 @@
       "secret_key": "{{user `secret_key`}}",
       "region": "eu-west-2",
       "iam_instance_profile": "packer_builder",
-      "source_ami_filter": {
-        "filters": {
-          "virtualization-type": "hvm",
-          "name": "Red Hat Enterprise Linux 8.4 with High Availability",
-          "root-device-type": "ebs"
-        },
-        "owners": [
-          "093401982388"
-        ],
-        "most_recent": true
+      "source_ami": "ami-0abcdef1234567890"
       },
       "launch_block_device_mappings": [
         {
