@@ -16,6 +16,9 @@
           "name": "Red Hat Enterprise Linux 8.4 with High Availability",
           "root-device-type": "ebs"
         },
+        "owners": [
+          "093401982388"
+        ],
         "most_recent": true
       },
       "launch_block_device_mappings": [
