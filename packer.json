@@ -13,7 +13,7 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "CentOS Linux 8*",
+          "name": "CentOS Linux 7 x86_64 HVM*",
           "root-device-type": "ebs"
         },
         "owners": [
