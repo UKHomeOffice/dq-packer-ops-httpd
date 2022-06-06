@@ -7,7 +7,8 @@
   pre_tasks:
     - name: Install python
       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
-      raw: echo helloworld
+      raw: yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel
+      raw: cd /usr/src/ || wget https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz || tar xzf /usr/src/Python-3.7.13.tgz
 
 # - name: Install HTTPD
 #   hosts: all
