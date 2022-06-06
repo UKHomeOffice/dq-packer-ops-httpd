@@ -7,6 +7,7 @@
   pre_tasks:
     - name: Install python
       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
+      raw: echo helloworld
 
 # - name: Install HTTPD
 #   hosts: all
