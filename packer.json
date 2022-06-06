@@ -1,5 +1,3 @@
-# Thx to https://github.com/jen20/packer-ubuntu-zfs/blob/master/focal/template.pkr.hcl
-
 source "amazon-ebssurrogate" "arm64" {
   # Unable to use "source_ami_filter" with the correct wildcards for getting arm64 without potentially matching a beta
   # Use https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#Images:visibility=public-images;ownerAlias=309956199498;architecture=arm64;name=RHEL-8;sort=name
