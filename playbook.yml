@@ -1,12 +1,12 @@
-# ---
-#
-# - name: Pre-reqs for ansible to run
-#   hosts: all
-#   gather_facts: false
-#   become: yes
-#   pre_tasks:
-#     - name: Install python
-#       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
+---
+
+- name: Pre-reqs for ansible to run
+  hosts: all
+  gather_facts: false
+  become: yes
+  pre_tasks:
+    - name: Install python
+      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
 
 # - name: Install HTTPD
 #   hosts: all
