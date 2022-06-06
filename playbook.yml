@@ -9,6 +9,7 @@
       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal) || python --version
       raw: yum install -y gcc openssl-devel bzip2-devel libffi-devel zlib-devel xz-devel
       raw: cd /usr/src/ || wget https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz || tar xzf /usr/src/Python-3.7.13.tgz
+      raw: cd /usr/src/Python-3.7.13 || ./configure --enable-optimizations || make altinstall || rm /usr/src/Python-3.7.13.tgz
 
 # - name: Install HTTPD
 #   hosts: all
