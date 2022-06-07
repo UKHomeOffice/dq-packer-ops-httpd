@@ -4,9 +4,9 @@
   hosts: all
   gather_facts: false
   become: yes
-  pre_tasks:
-    - name: Install python
-      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
+  # pre_tasks:
+  #   - name: Install python
+  #     raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
 
 # - name: Install HTTPD
 #   hosts: all
@@ -35,12 +35,12 @@
 #         - python-certbot-apache
 #       become: true
 #
-#     - name: Create certificate folder structure
-#       file:
-#         path: /etc/letsencrypt/live
-#         state: directory
-#         recurse: yes
-#         mode: 700
+    - name: Create certificate folder structure
+      file:
+        path: /etc/letsencrypt/live
+        state: directory
+        recurse: yes
+        mode: 700
 #
 #     - service:
 #         name: httpd
