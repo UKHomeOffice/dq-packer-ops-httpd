@@ -13,11 +13,11 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "CentOS Linux 7 x86_64 HVM*",
+          "name": "RHEL_HA-8.4.0_HVM-20210504-x86_64-2-Hourly2-GP2",
           "root-device-type": "ebs"
         },
         "owners": [
-          "679593333241"
+          "309956199498"
         ],
         "most_recent": true
       },
@@ -29,8 +29,8 @@
           "delete_on_termination": true
         }
       ],
-      "ssh_username": "centos",
-      "instance_type": "t3.micro",
+      "ssh_username": "ec2-user",
+      "instance_type": "t3a.micro",
       "ami_name": "dq-ops-httpd {{isotime | clean_ami_name}}",
       "ami_users": [
         "483846886818",
