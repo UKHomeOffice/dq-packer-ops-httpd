@@ -5,8 +5,8 @@
   gather_facts: false
   become: yes
   pre_tasks:
-    - name: Install python
-      raw: yum check-update
+    - name: dnf check update
+      raw: dnf check-update
 
 # - name: Install HTTPD
 #   hosts: all
