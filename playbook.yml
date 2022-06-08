@@ -6,7 +6,7 @@
   become: yes
   pre_tasks:
     - name: register
-      raw: subscription-manager register
+      raw: echo hello
 
 
 # - name: Install HTTPD
