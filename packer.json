@@ -48,7 +48,7 @@
     },
     {
       "type": "shell",
-      "inline": ["subscription-manager register --username rhusername --password rhpassword --auto-attach"]
+      "inline": ["subscription-manager register --username $rhusername --password $rhpassword --auto-attach"]
     }
   ]
 }
