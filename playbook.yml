@@ -8,6 +8,13 @@
     - name: register
       raw: echo hello
 
+- name: Install HTTPD
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install HTTPD
+      raw: dnf install -y httpd
+
 
 # - name: Install HTTPD
 #   hosts: all
@@ -21,10 +28,10 @@
 #         - wget
 #         - curl
 #       become: true
-#
-    - name: Set timezone to Europe/London
-      timezone:
-        name: Europe/London
+
+    # - name: Set timezone to Europe/London
+    #   timezone:
+    #     name: Europe/London
 
 #     - name: Yum install required packages
 #       yum: name={{ item }}
