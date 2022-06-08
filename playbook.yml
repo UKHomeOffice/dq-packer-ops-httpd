@@ -4,12 +4,9 @@
   hosts: all
   gather_facts: false
   become: yes
-    pre_tasks:
-      - name: echo hello
-        raw: echo hello
-#   pre_tasks:
-#     - name: Install python
-#       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
+  pre_tasks:
+    - name: Install python
+      raw: echo hello
 #
 # - name: Install HTTPD
 #   hosts: all
