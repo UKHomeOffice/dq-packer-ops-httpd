@@ -41,7 +41,8 @@
   "provisioners": [
     {
       "type": "ansible",
-      "sftp_command": "/usr/libexec/openssh/sftp-server"
+      "sftp_command": "/usr/libexec/openssh/sftp-server",
+      "playbook_file": "./playbook.yml"
     }
   ]
 }

@@ -5,8 +5,8 @@
   gather_facts: false
   become: yes
   pre_tasks:
-    - name: dnf check update
-      raw: dnf check-update
+    - name: echo hello
+
 
 # - name: Install HTTPD
 #   hosts: all
