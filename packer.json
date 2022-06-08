@@ -44,7 +44,10 @@
     {
       "type": "ansible",
       "sftp_command": "/usr/libexec/openssh/sftp-server",
-      "playbook_file": "./playbook.yml",
+      "playbook_file": "./playbook.yml"
+    },
+    {
+      "type": "shell",
       "inline": ["subscription-manager register --username rhusername --password rhpassword --auto-attach"]
     }
   ]
