@@ -4,15 +4,18 @@
   hosts: all
   gather_facts: false
   become: yes
-  pre_tasks:
-    - name: register
-      raw: echo hello
-
+    pre_tasks:
+      - name: echo hello
+        raw: echo hello
+#   pre_tasks:
+#     - name: Install python
+#       raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
+#
 # - name: Install HTTPD
 #   hosts: all
 #   become: yes
 #   tasks:
-#     - name: Install Pre Dependencies
+#     - name: Yum Install Pre Dependencies
 #       yum: name={{ item }}
 #       with_items:
 #         - epel-release
@@ -20,11 +23,11 @@
 #         - wget
 #         - curl
 #       become: true
-
-    # - name: Set timezone to Europe/London
-    #   timezone:
-    #     name: Europe/London
-
+#
+#     - name: Set timezone to Europe/London
+#       timezone:
+#         name: Europe/London
+#
 #     - name: Yum install required packages
 #       yum: name={{ item }}
 #       with_items:
@@ -35,12 +38,12 @@
 #         - python-certbot-apache
 #       become: true
 #
-    # - name: Create certificate folder structure
-    #   file:
-    #     path: /etc/letsencrypt/live
-    #     state: directory
-    #     recurse: yes
-    #     mode: 700
+#     - name: Create certificate folder structure
+#       file:
+#         path: /etc/letsencrypt/live
+#         state: directory
+#         recurse: yes
+#         mode: 700
 #
 #     - service:
 #         name: httpd
@@ -67,14 +70,14 @@
 #         name: Check Certificate Expiry Status
 #         minute: 0
 #         hour: 9
-#         job: source /home/centos/ssl_expire_script/env_vars && /usr/src/Python-3.7.13/python /home/centos/ssl_expire_script/cert_expiry_monitor.py
+#         job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/cert_expiry_monitor.py
 #
 #     - name: Create cronjob for cert-backup-script to run 1am everyday
 #       cron:
 #         name: Backup Certs to SSM
 #         minute: 0
 #         hour: 1
-#         job: source /home/centos/ssl_expire_script/env_vars && /usr/src/Python-3.7.13/python /home/centos/ssl_expire_script/backup_certs_to_ssm.py
+#         job: source /home/centos/ssl_expire_script/env_vars && python3 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
 #
 #     - name: Configure SELinux for Apache
 #       shell: '{{ item }}'
@@ -124,7 +127,7 @@
 #         name: Pull httpd config files s3
 #         minute: "*"
 #         hour: "*"
-#         job: source /root/.bashrc && /usr/src/Python-3.7.13/python /home/centos/gets3content.py
+#         job: source /root/.bashrc && python3 /home/centos/gets3content.py
 #
 #     - user:
 #         name: apache
@@ -201,12 +204,12 @@
           log_group_name = /HTTPD/syslog
           log_stream_name = {instance_id}
           datetime_format = %Y-%m-%d %H:%M:%S,%f
-#     - name: Install cloudwatch log agent
-#       environment:
-#         LC_ALL: C
-#       shell: /tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf
-#       args:
-#         creates: /var/awslogs/etc/aws.conf
+    - name: Install cloudwatch log agent
+      environment:
+        LC_ALL: C
+      shell: /tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf
+      args:
+        creates: /var/awslogs/etc/aws.conf
 #
 #     - name: Copy cloudwatch logs starter
 #       copy:
