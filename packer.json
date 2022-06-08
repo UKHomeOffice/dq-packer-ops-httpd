@@ -1,9 +1,7 @@
 {
   "variables": {
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
-    "rhusername": "{{env `RHUSERNAME`}}",
-    "rhpassword": "{{env `RHPASSWORD`}}"
+    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
   },
   "builders": [
     {
@@ -45,10 +43,6 @@
       "type": "ansible",
       "sftp_command": "/usr/libexec/openssh/sftp-server",
       "playbook_file": "./playbook.yml"
-    },
-    {
-      "type": "shell",
-      "inline": ["subscription-manager register --username dqhomeoffice --password AstroHoneyIce3£ --auto-attach"]
     }
   ]
 }
