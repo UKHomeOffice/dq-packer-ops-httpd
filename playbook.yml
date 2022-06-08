@@ -5,8 +5,8 @@
   gather_facts: false
   become: yes
   pre_tasks:
-    - name: dnf check-update
-      raw: dnf check-update
+    - name: register
+      raw: subscription-manager register
 
 
 # - name: Install HTTPD
