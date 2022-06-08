@@ -6,6 +6,7 @@
   become: yes
   pre_tasks:
     - name: echo hello
+      raw: echo hello
 
 
 # - name: Install HTTPD
