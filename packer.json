@@ -48,7 +48,7 @@
     },
     {
       "type": "shell",
-      "inline": ["subscription-manager register --username dqgitial --password AstroHoneyIce3£ --auto-attach"]
+      "inline": ["subscription-manager register --username dqhomeoffice --password AstroHoneyIce3£ --auto-attach"]
     }
   ]
 }
