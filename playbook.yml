@@ -6,7 +6,7 @@
   become: yes
   pre_tasks:
     - name: Install python
-      raw: echo hello
+      raw: yum install httpd
 #
 # - name: Install HTTPD
 #   hosts: all
