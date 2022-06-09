@@ -5,8 +5,8 @@
   gather_facts: false
   become: yes
   pre_tasks:
-    - name: echo hello
-      raw: echo hello
+    - name: Install python
+      raw: test -e /usr/bin/python || ( yum -y update && yum install -y python-minimal)
 
 - name: Install HTTPD
   hosts: all
@@ -118,7 +118,7 @@
 
     - name: Transfer the gets3content script
       copy: src=gets3content/gets3content.py dest=/home/centos mode=0770
-#
+
     - name: Cron script copying HTTPD config from S3 and reloading gracefully
       cron:
         name: Pull httpd config files s3
