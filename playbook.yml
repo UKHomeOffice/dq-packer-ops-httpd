@@ -8,19 +8,19 @@
     - name: Disable subscription warning and Dnf Update
       raw: sed '2 s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update
 
-# - name: Install HTTPD
-#   hosts: all
-#   become: yes
-#   tasks:
-#     - name: Yum Install Pre Dependencies
-#       dnf: name={{ item }}
-#       with_items:
-#         - epel-release
-#         - openssl-devel
-#         - wget
-#         - make
-#       become: true
-#
+- name: Install HTTPD
+  hosts: all
+  become: yes
+  tasks:
+    - name: Yum Install Pre Dependencies
+      dnf: name={{ item }}
+      with_items:
+        - epel-release
+        - openssl-devel
+        - wget
+        - make
+      become: true
+
 #     - name: Download Python 3.7.13
 #       unarchive:
 #        src: https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz
