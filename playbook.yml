@@ -8,17 +8,17 @@
     - name: Disable subscription warning , Dnf Update , Intstall Python3.8
       raw: sed '2 s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python38 || mv /usr/bin/python3.8 /usr/bin/python
 
-# - name: Install HTTPD
-#   hosts: all
-#   become: yes
-#   tasks:
-#     - name: Install Pre Dependencies
-#       dnf:
-#         name:
-#           - openssl-devel
-#           - wget
-#           - make
-#         state: latest
+- name: Install HTTPD
+  hosts: all
+  become: yes
+  tasks:
+    - name: Install Pre Dependencies
+      dnf:
+        name:
+          - openssl-devel
+          - wget
+          - make
+        state: latest
     # - name: Dnf Install Pre Dependencies
     #   dnf: name={{ item }}
     #   with_items:
