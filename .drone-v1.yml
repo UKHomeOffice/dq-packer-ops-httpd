@@ -39,25 +39,25 @@ steps:
     event:
     - push
 
-# - name: packer-copy-notprod
-#   pull: always
-#   image: quay.io/ukhomeofficedigital/dq-packer-encrypt-copy
-#   commands:
-#   - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
-#   - export aws_id=$$NOTPROD_ACC_ID
-#   - export aws_key=$$NOTPROD_ACC_KEY
-#   - export region=eu-west-2
-#   - export HOME=/home/packer
-#   - cd /home/packer
-#   - ./build.sh
-#   environment:
-#     NOTPROD_ACC_ID:
-#       from_secret: NOTPROD_ACC_ID
-#     NOTPROD_ACC_KEY:
-#       from_secret: NOTPROD_ACC_KEY
-#   when:
-#     event:
-#     - push
+- name: packer-copy-notprod
+  pull: always
+  image: quay.io/ukhomeofficedigital/dq-packer-encrypt-copy
+  commands:
+  - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
+  - export aws_id=$$NOTPROD_ACC_ID
+  - export aws_key=$$NOTPROD_ACC_KEY
+  - export region=eu-west-2
+  - export HOME=/home/packer
+  - cd /home/packer
+  - ./build.sh
+  environment:
+    NOTPROD_ACC_ID:
+      from_secret: NOTPROD_ACC_ID
+    NOTPROD_ACC_KEY:
+      from_secret: NOTPROD_ACC_KEY
+  when:
+    event:
+    - push
 
 # - name: packer-copy-prod
 #   pull: always
