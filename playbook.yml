@@ -12,12 +12,13 @@
   hosts: all
   become: yes
   tasks:
-    - name: Configure, build, test and install Python 3.7.13
-      shell: |
-        dnf install -y openssl-devel
-        dnf install -y wget
-        dnf install -y make
-      become: true
+    - name: Install Pre Dependencies
+      dnf:
+        name:
+          - openssl-devel
+          - wget
+          - make
+        state: latest
     # - name: Dnf Install Pre Dependencies
     #   dnf: name={{ item }}
     #   with_items:
