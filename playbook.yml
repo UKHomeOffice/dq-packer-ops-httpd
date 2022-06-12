@@ -6,8 +6,7 @@
   become: yes
   pre_tasks:
     - name: Disable subscription warning , Dnf Update , Intstall Python3.6 (no python in redhat, 3.6 latest version that works with ansible runner)
-      raw: sed '2 s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python36 || sed '3 s/.*/nameserver 8.8.8.8/' /etc/resolv.conf
-
+      raw: sed '2 s/.*/enabled=1/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python36 
 
 - name: Install HTTPD
   hosts: all
