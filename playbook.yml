@@ -27,7 +27,6 @@
     - name:  Install certbot-apache
       raw: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm || dnf install -y python3-certbot-apache
 
-
     - name: Create certificate folder structure
       file:
         path: /etc/letsencrypt/live
@@ -64,22 +63,17 @@
     - name: Configure SELinux for Apache
       raw: semanage permissive -a httpd_t || setsebool httpd_can_network_relay on || setsebool -P httpd_can_network_relay on
 
-    - name: update all libraries, excluding python-urllib
-      dnf:
-        name: '*'
-        state: latest
-        exclude: python3-urllib*
+    # - name: update all libraries, excluding python-urllib
+    #   dnf:
+    #     name: '*'
+    #     state: latest
+    #     exclude: python3-urllib*
 
     - name: GET config files from DQ-config-bucket
       shell: aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
 
-    - name: Move config files to appropriate locations
-      shell: '{{ item }}'
-      with_items:
-        - cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf
-        - cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf
-        - cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini
-        - chmod 644 /etc/letsencrypt/config.ini
+    - name:  Move config files to appropriate locations
+      raw: cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf || cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf || cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini |\ chmod 644 /etc/letsencrypt/config.ini
 
     - user:
         name: ec2-user
