@@ -80,8 +80,8 @@
     # - name:  Move config files to appropriate locations
     #   raw: cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf || cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf || cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini |\ chmod 644 /etc/letsencrypt/config.ini
     #
-    # - user:
-    #     name: ec2-user
+    - user:
+        name: ec2-user
     #
     # - name: Transfer the gets3content script
     #   copy: src=gets3content/gets3content.py dest=/home/centos mode=0770
