@@ -6,7 +6,7 @@
   become: yes
   pre_tasks:
     - name: Disable subscription warning , Dnf Update , Intstall Python3.6 (no python in redhat, 3.6 latest version that works with ansible runner)
-      raw: sed '2 s/.*/enabled=1/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python36 
+      raw: sed '2 s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python36 || dnf install python39
 
 - name: Install HTTPD
   hosts: all
@@ -22,20 +22,6 @@
           - make
         state: latest
 
-    - name: Download Python 3.7.13 (for compatibility with boto3)
-      unarchive:
-       src: https://www.python.org/ftp/python/3.7.13/Python-3.7.13.tgz
-       dest: /usr/src
-       remote_src: yes
-      become: true
-
-    - name: Configure, build, test and install Python 3.7.13
-      shell: |
-        cd /usr/src/Python-3.7.13
-        ./configure --enable-optimizations
-        make altinstall
-      become: true
-
     - name: Set timezone to Europe/London
       timezone:
         name: Europe/London
@@ -48,8 +34,10 @@
         - httpd
         - mod_ssl
         - https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-        - python3-certbot-apache
       become: true
+
+    - name:  Install certbot-apache
+      raw: dnf install -y python3-certbot-apache
 
     - name: Create certificate folder structure
       file:
@@ -77,14 +65,14 @@
         name: Check Certificate Expiry Status
         minute: 0
         hour: 9
-        job: source /home/centos/ssl_expire_script/env_vars && /usr/src/Python-3.7.13/python /home/centos/ssl_expire_script/cert_expiry_monitor.py
+        job: source /home/centos/ssl_expire_script/env_vars && python3.9 /home/centos/ssl_expire_script/cert_expiry_monitor.py
 
     - name: Create cronjob for cert-backup-script to run 1am everyday
       cron:
         name: Backup Certs to SSM
         minute: 0
         hour: 1
-        job: source /home/centos/ssl_expire_script/env_vars && /usr/src/Python-3.7.13/python /home/centos/ssl_expire_script/backup_certs_to_ssm.py
+        job: source /home/centos/ssl_expire_script/env_vars && python3.9 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
 
     - name: Install requirement for semanage
       raw: dnf install -y policycoreutils-python-utils-2.8-16.1.el8.noarch
@@ -124,7 +112,7 @@
         name: Pull httpd config files s3
         minute: "*"
         hour: "*"
-        job: source /root/.bashrc && python3 /home/centos/gets3content.py
+        job: source /root/.bashrc && python3.9 /home/centos/gets3content.py
 
     - user:
         name: apache
