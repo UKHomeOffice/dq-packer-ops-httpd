@@ -12,16 +12,18 @@
   hosts: all
   vars:
     ansible_python_interpreter: /usr/bin/python3.6
-    region: eu-west-2
   become: yes
   tasks:
-    - name: Install Pre Dependencies
-      dnf:
-        name:
-          - openssl-devel
-          - wget
-          - make
-        state: latest
+    - name: Dnf Install Pre Dependencies
+      raw: dnf install -y openssl-devel || dnf install -y wget || dnf install -y make
+
+    # - name: Install Pre Dependencies
+    #   dnf:
+    #     name:
+    #       - openssl-devel
+    #       - wget
+    #       - make
+    #     state: latest
 
     - name: Set timezone to Europe/London
       timezone:
