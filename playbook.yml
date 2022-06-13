@@ -17,30 +17,16 @@
     - name: Dnf Install Pre Dependencies
       raw: dnf install -y openssl-devel || dnf install -y wget || dnf install -y make
 
-    # - name: Install Pre Dependencies
-    #   dnf:
-    #     name:
-    #       - openssl-devel
-    #       - wget
-    #       - make
-    #     state: latest
-
     - name: Set timezone to Europe/London
       timezone:
         name: Europe/London
 
     - name: Dnf install required packages
-      dnf: name={{ item }}
-      with_items:
-        - python3-pip
-        - cloud-utils-growpart.noarch
-        - httpd
-        - mod_ssl
-        - https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
-      become: true
+      raw: dnf install -y python3-pip || dnf install -y cloud-utils-growpart.noarch || dnf install -y httpd || dnf install -y mod_ssl
 
     - name:  Install certbot-apache
-      raw: dnf install -y python3-certbot-apache
+      raw: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm || dnf install -y python3-certbot-apache
+
 
     - name: Create certificate folder structure
       file:
