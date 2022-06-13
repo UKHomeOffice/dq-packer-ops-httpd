@@ -62,11 +62,7 @@
       raw: dnf install -y policycoreutils-python-utils-2.8-16.1.el8.noarch
 
     - name: Configure SELinux for Apache
-      shell: '{{ item }}'
-      with_items:
-        - semanage permissive -a httpd_t
-        - setsebool httpd_can_network_relay on
-        - setsebool -P httpd_can_network_relay on
+      raw: semanage permissive -a httpd_t || setsebool httpd_can_network_relay on || setsebool -P httpd_can_network_relay on
 
     - name: update all libraries, excluding python-urllib
       dnf:
