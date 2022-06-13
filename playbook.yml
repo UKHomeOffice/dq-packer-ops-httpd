@@ -12,7 +12,7 @@
   hosts: all
   vars:
     ansible_python_interpreter: /usr/bin/python3.6
-    region: {{ REGION }}
+    region: eu-west-2
   become: yes
   tasks:
     - name: Install Pre Dependencies
