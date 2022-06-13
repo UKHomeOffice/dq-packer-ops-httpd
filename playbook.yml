@@ -35,7 +35,7 @@
         mode: 700
 
     - name: Install pip modules
-      raw: pip3 install boto3 futures AWSCLI lxml
+      raw: pip3 install boto3 futures awscli lxml
 
     - name: Create expire script directory and file
       copy:
