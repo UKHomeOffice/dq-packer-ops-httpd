@@ -70,7 +70,7 @@
     #     exclude: python3-urllib*
 
     - name: GET config files from DQ-config-bucket
-      raw: pip3 install awscli || aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
+      shell: pip3 install awscli || aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
 
     # - name: GET config files from DQ-config-bucket
     #   shell: aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive
