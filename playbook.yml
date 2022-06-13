@@ -22,7 +22,7 @@
         name: Europe/London
 
     - name: Dnf install required packages
-      raw: dnf install -y python3-pip || dnf install -y cloud-utils-growpart.noarch || dnf install -y httpd || dnf install -y mod_ssl
+      raw: dnf install -y python3-pip || dnf install -y cloud-utils-growpart.noarch || dnf install -y httpd || systemctl start httpd || dnf install -y mod_ssl
 
     - name:  Install certbot-apache
       raw: dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm || dnf install -y python3-certbot-apache
@@ -34,11 +34,6 @@
         state: directory
         recurse: yes
         mode: 700
-
-    - service:
-        name: httpd
-        enabled: yes
-        state: started
 
     - name: Install pip modules
       raw: pip3 install boto3 futures AWSCLI lxml
