@@ -1,51 +1,48 @@
 ---
 
 - name: Pre-reqs for ansible to run
-  hosts: all
+  hosts: localhost
   gather_facts: false
   become: yes
 
-- community.aws.aws_region_info:
-    filters:
-      region-name: eu-west-2
-
 - name: Install HTTPD
-  hosts: all
+  hosts: localhost
   vars:
     ansible_python_interpreter: /usr/bin/python3.6
   become: yes
   tasks:
+
     - name: test shell cmd
       shell: echo hellothere > /home/ec2-user/hi.txt
 
     - name: Set timezone to Europe/London
       timezone:
         name: Europe/London
-
-    - name: Install openssl-devel
-      dnf:
-        name: openssl-devel
-        state: latest
-
-    - name: Install wget
-      dnf:
-        name: wget
-        state: latest
-
-    - name: Install Python3.6
-      dnf:
-        name: python36
-        state: latest
-
-    - name: Install Python3.9
-      dnf:
-        name: python39
-        state: latest
-
-    - name: Upgrade all packages
-      dnf:
-        name: "*"
-        state: latest
+    # 
+    # - name: Install openssl-devel
+    #   dnf:
+    #     name: openssl-devel
+    #     state: latest
+    #
+    # - name: Install wget
+    #   dnf:
+    #     name: wget
+    #     state: latest
+    #
+    # - name: Install Python3.6
+    #   dnf:
+    #     name: python36
+    #     state: latest
+    #
+    # - name: Install Python3.9
+    #   dnf:
+    #     name: python39
+    #     state: latest
+    #
+    # - name: Upgrade all packages
+    #   dnf:
+    #     name: "*"
+    #     state: latest
 
 
 
