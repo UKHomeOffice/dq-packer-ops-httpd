@@ -74,7 +74,8 @@
         "aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive",
         "cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf",
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
-        "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini |\ chmod 644 /etc/letsencrypt/config.ini"
+        "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
+        "chmod 644 /etc/letsencrypt/config.ini"
 
       ]
     }
