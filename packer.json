@@ -54,6 +54,6 @@
         "dnf -y install python39",
         "echo helloworld > /home/ec2-user/madefrompacker.txt"
       ]
-    },
+    }
   ]
 }
