@@ -1,12 +1,12 @@
 ---
 
 - name: Pre-reqs for ansible to run
-  hosts: localhost
+  hosts: all
   gather_facts: false
   become: yes
 
 - name: Install HTTPD
-  hosts: localhost
+  hosts: all
   vars:
     ansible_python_interpreter: /usr/bin/python3.6
   become: yes
@@ -18,7 +18,7 @@
     - name: Set timezone to Europe/London
       timezone:
         name: Europe/London
-    # 
+    #
     # - name: Install openssl-devel
     #   dnf:
     #     name: openssl-devel
