@@ -126,13 +126,6 @@
           log_stream_name = {instance_id}
           datetime_format = %Y-%m-%d %H:%M:%S,%f
 
-    - name: Install cloudwatch log agent
-      environment:
-        LC_ALL: C
-      shell: /tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf
-      args:
-        creates: /var/awslogs/etc/aws.conf
-
     - name: Copy cloudwatch logs starter
       copy:
         src: startcloudwatchlogs.sh
@@ -140,11 +133,6 @@
         owner: root
         group: root
         mode: 0755
-
-    - name: Install cloudwatch agent
-      dnf:
-        name: /tmp/amazon-cloudwatch-agent.rpm
-        state: present
 
     - name: Cloudwatch Agent config
       copy:
