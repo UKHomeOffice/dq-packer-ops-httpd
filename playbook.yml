@@ -16,26 +16,26 @@
 
     - name: Set timezone to Europe/London
       timezone:
-        name: Asia/Tokyo
+        name: Europe/London
 
     - name: Install openssl-devel
       dnf:
-        name: "openssl-devel"
+        name: openssl-devel
         state: latest
 
     - name: Install wget
       dnf:
-        name: "wget"
+        name: wget
         state: latest
 
     - name: Install Python3.6
       dnf:
-        name: "python36"
+        name: python36
         state: latest
 
     - name: Install Python3.9
       dnf:
-        name: "python39"
+        name: python39
         state: latest
 
     - name: Upgrade all packages
