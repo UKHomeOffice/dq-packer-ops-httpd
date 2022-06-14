@@ -59,12 +59,6 @@
     - user:
         name: apache
 
-    - name: Download cloudwatch logs agent
-      get_url:
-        url: https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py
-        dest: /tmp/awslogs-agent-setup.py
-        mode: "+x"
-
     - name: Cloudwatch logs config
       copy:
         dest: /tmp/cwlogs.conf
@@ -131,6 +125,7 @@
           log_group_name = /HTTPD/syslog
           log_stream_name = {instance_id}
           datetime_format = %Y-%m-%d %H:%M:%S,%f
+
     - name: Install cloudwatch log agent
       environment:
         LC_ALL: C
@@ -145,12 +140,6 @@
         owner: root
         group: root
         mode: 0755
-
-    - name: Download cloudwatch agent
-      get_url:
-        url: https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm
-        dest: /tmp/amazon-cloudwatch-agent.rpm
-        mode: "+x"
 
     - name: Install cloudwatch agent
       dnf:
@@ -214,6 +203,7 @@
                                   }
                           }
                   }
+
     - name: Make Cron Job to start awslogs with right region
       cron:
         name: Start awslogs
