@@ -5,6 +5,10 @@
   gather_facts: false
   become: yes
 
+- community.aws.aws_region_info:
+    filters:
+      region-name: eu-west-2
+
 - name: Install HTTPD
   hosts: all
   vars:
