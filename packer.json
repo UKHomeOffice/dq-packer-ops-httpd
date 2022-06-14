@@ -79,8 +79,7 @@
         "wget https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py > /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "wget https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm > /tmp/amazon-cloudwatch-agent.rpm",
-        "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
-
+        "chmod +x /tmp/amazon-cloudwatch-agent.rpm"
       ]
     }
   ]
