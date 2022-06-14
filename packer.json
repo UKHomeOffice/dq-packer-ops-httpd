@@ -43,6 +43,17 @@
       "type": "ansible",
       "sftp_command": "/usr/libexec/openssh/sftp-server",
       "playbook_file": "./playbook.yml"
-    }
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
+      "inline": [
+        "dnf -y install openssl-devel",
+        "dnf -y install wget",
+        "dnf -y install python36",
+        "dnf -y install python39",
+        "echo helloworld > /home/ec2-user/madefrompacker.txt"
+      ]
+    },
   ]
 }
