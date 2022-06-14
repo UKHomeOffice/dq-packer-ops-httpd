@@ -4,9 +4,6 @@
   hosts: all
   gather_facts: false
   become: yes
-  pre_tasks:
-    - name: Disable subscription warning , Dnf Update , Intstall Python3.6 (no python in redhat, 3.6 latest version that works with ansible runner)
-      raw: sed '2 s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf || dnf -y update  || dnf install -y python36 || dnf install python39
 
 - name: Install HTTPD
   hosts: all
@@ -14,12 +11,37 @@
     ansible_python_interpreter: /usr/bin/python3.6
   become: yes
   tasks:
-    - name: Dnf Install Pre Dependencies
-      raw: dnf install -y openssl-devel || dnf install -y wget || dnf install -y make || echo hellothere > /home/ec2-user/hi.txt
+    - name: test shell cmd
+      shell: echo hellothere > /home/ec2-user/hi.txt
 
     - name: Set timezone to Europe/London
       timezone:
         name: Asia/Tokyo
+
+    - name: Install openssl-devel
+      dnf:
+        name: "openssl-devel"
+        state: latest
+
+    - name: Install wget
+      dnf:
+        name: "wget"
+        state: latest
+
+    - name: Install Python3.6
+      dnf:
+        name: "python36"
+        state: latest
+
+    - name: Install Python3.9
+      dnf:
+        name: "python39"
+        state: latest
+
+    - name: Upgrade all packages
+      dnf:
+        name: "*"
+        state: latest
 
 
 
