@@ -43,7 +43,7 @@
       "type": "shell",
       "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
       "inline": [
-        "./userdata.sh"
+        "sh userdata.sh"
       ]
     }
   ]
