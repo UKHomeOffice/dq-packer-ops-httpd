@@ -78,7 +78,7 @@
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
-        "cat crons > /var/spool/cron/root"
+        "cat /tmp/crons > /var/spool/cron/root"
       ]
     }
   ]
