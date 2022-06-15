@@ -41,10 +41,9 @@
   "provisioners": [
     {
       "type": "shell",
-      "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
-      "inline": [
-        "sh userdata.sh"
-      ]
+      "script": "userdata.sh",
+      "pause_before": "10s",
+      "timeout": "10s"
     }
   ]
 }
