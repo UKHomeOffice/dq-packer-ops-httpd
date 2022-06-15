@@ -71,6 +71,7 @@
         "cp gets3content.py /home/ec2-user/",
         "cp cwconfigs/cwlogs.conf /tmp/",
         "cp startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh",
+        "cp crons /tmp/",
         "wget https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py > /tmp/awslogs-agent-setup.py",
         "wget https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm > /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
