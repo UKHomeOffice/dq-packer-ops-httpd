@@ -96,6 +96,8 @@
         "mkdir -m 700 /home/ec2-user/ssl_expire_script",
         "mv /tmp/backup_certs_to_ssm.py /home/ec2-user/ssl_expire_script/",
         "mv /tmp/cert_expiry_monitor.py /home/ec2-user/ssl_expire_script/",
+        "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh",
+        "cp /tmp/crons /var/spool/cron/root",
         "cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf",
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
         "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
@@ -103,7 +105,8 @@
         "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
-        "chmod 0770 /home/ec2-user/ssl_expire_script/"
+        "chmod 0770 /home/ec2-user/ssl_expire_script/",
+        "/tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf"
       ]
     }
   ]
