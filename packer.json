@@ -77,8 +77,8 @@
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
-        "chmod 0770 /home/ec2-user/ssl_expire_script/",
-        "cat /tmp/crons > /var/spool/cron/root"
+        "chmod 0770 /home/ec2-user/ssl_expire_script/"
+
       ]
     }
   ]
