@@ -40,6 +40,26 @@
   ],
   "provisioners": [
     {
+      "type": "file",
+      "source": "gets3content.py",
+      "destination": "/home/ec2-user/gets3content.py"
+    },
+    {
+      "type": "file",
+      "source": "startcloudwatchlogs.sh",
+      "destination": "/usr/bin/startcloudwatchlogs.sh"
+    },
+    {
+      "type": "file",
+      "source": "crons",
+      "destination": "/tmp/crons"
+    },
+    {
+      "type": "file",
+      "source": "cwconfigs/cwlogs.conf",
+      "destination": "/tmp/cwlogs.conf"
+    },
+    {
       "type": "shell",
       "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
       "inline": [
@@ -67,19 +87,19 @@
         "cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf",
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
         "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
-        "cp scripts/* /home/ec2-user/ssl_expire_script/",
-        "cp gets3content.py /home/ec2-user/",
-        "cp cwconfigs/cwlogs.conf /tmp/",
-        "cp startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh",
-        "cp crons /tmp/",
         "wget https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py > /tmp/awslogs-agent-setup.py",
-        "wget https://s3.amazonaws.com/amazoncloudwatch-agent/centos/amd64/latest/amazon-cloudwatch-agent.rpm > /tmp/amazon-cloudwatch-agent.rpm",
+        "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm > /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
-        "chmod 0770 /home/ec2-user/ssl_expire_script/"
-
+        "chmod 0770 /home/ec2-user/ssl_expire_script/",
+        "rpm -U /tmp/amazon-cloudwatch-agent.rpm"
       ]
+    },
+    {
+        "source": "/scripts",
+        "destination": "/home/ec2-user/ssl_expire_script/",
+        "type": "file"
     }
   ]
 }
