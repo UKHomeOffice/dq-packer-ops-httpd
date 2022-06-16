@@ -97,7 +97,7 @@
       ]
     },
     {
-        "source": "/scripts",
+        "source": "scripts",
         "destination": "/home/ec2-user/ssl_expire_script/",
         "type": "file"
     }
