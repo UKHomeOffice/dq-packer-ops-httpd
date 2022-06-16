@@ -91,16 +91,10 @@
         "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
-        "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
         "rpm -U amazon-cloudwatch-agent.rpm",
         "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh"
       ]
-    },
-    {
-        "source": "scripts",
-        "destination": "/home/ec2-user/ssl_expire_script/",
-        "type": "file"
     }
   ]
 }
