@@ -61,16 +61,22 @@
     },
     {
       "type": "file",
-      "source": "ssl_expire_script",
-      "destination": "/tmp/"
+      "source": "ssl_expire_script/backup_certs_to_ssm.py",
+      "destination": "/tmp/backup_certs_to_ssm.py"
+    },
+    {
+      "type": "file",
+      "source": "ssl_expire_script/cert_expiry_monitor.py",
+      "destination": "/tmp/cert_expiry_monitor.py"
     },
     {
       "type": "shell",
       "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
       "inline": [
+        "sed -i '2s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf",
         "dnf install -y openssl-devel",
-        "dnf install -y  wget",
-        "dnf install -y  python39",
+        "dnf install -y wget",
+        "dnf install -y python39",
         "dnf install -y python3-pip",
         "dnf install -y cloud-utils-growpart.noarch",
         "dnf install -y httpd",
@@ -88,7 +94,8 @@
         "aws s3 cp s3://dq-config-bucket/dq-packer-ops-httpd /tmp/install --recursive",
         "mkdir -m 700 /etc/letsencrypt/live",
         "mkdir -m 700 /home/ec2-user/ssl_expire_script",
-        "mv /tmp/ssl_expire_script /home/ec2-user/",
+        "mv /tmp/backup_certs_to_ssm.py /home/ec2-user/ssl_expire_script/",
+        "mv /tmp/cert_expiry_monitor.py /home/ec2-user/ssl_expire_script/",
         "cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf",
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
         "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
