@@ -47,7 +47,7 @@
     {
       "type": "file",
       "source": "startcloudwatchlogs.sh",
-      "destination": "/usr/bin/startcloudwatchlogs.sh"
+      "destination": "/tmp/startcloudwatchlogs.sh"
     },
     {
       "type": "file",
@@ -93,7 +93,8 @@
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
-        "rpm -U /tmp/amazon-cloudwatch-agent.rpm"
+        "rpm -U /tmp/amazon-cloudwatch-agent.rpm",
+        "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh"
       ]
     },
     {
