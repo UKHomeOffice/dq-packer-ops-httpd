@@ -88,12 +88,12 @@
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
         "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
         "wget https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py > /tmp/awslogs-agent-setup.py",
-        "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm > /tmp/amazon-cloudwatch-agent.rpm",
+        "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /tmp/amazon-cloudwatch-agent.rpm",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
-        "rpm -U /tmp/amazon-cloudwatch-agent.rpm",
+        "rpm -U amazon-cloudwatch-agent.rpm",
         "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh"
       ]
     },
