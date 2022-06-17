@@ -61,6 +61,11 @@
     },
     {
       "type": "file",
+      "source": "cwconfigs/config.json",
+      "destination": "/tmp/config.json"
+    },
+    {
+      "type": "file",
       "source": "ssl_expire_script/backup_certs_to_ssm.py",
       "destination": "/tmp/backup_certs_to_ssm.py"
     },
@@ -74,6 +79,7 @@
       "execute_command": "echo {{user `ssh_username`}} | {{ .Vars }} sudo -E -S sh '{{ .Path }}'",
       "inline": [
         "sed -i '2s/.*/enabled=0/' /etc/yum/pluginconf.d/subscription-manager.conf",
+        "dnf -y update",
         "dnf install -y openssl-devel",
         "dnf install -y wget",
         "dnf install -y python39",
@@ -103,10 +109,12 @@
         "cp -f /tmp/install/config.ini /etc/letsencrypt/config.ini",
         "wget https://s3.amazonaws.com//aws-cloudwatch/downloads/latest/awslogs-agent-setup.py > /tmp/awslogs-agent-setup.py",
         "wget https://s3.amazonaws.com/amazoncloudwatch-agent/redhat/amd64/latest/amazon-cloudwatch-agent.rpm",
+        "rpm -U amazon-cloudwatch-agent.rpm",
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
-        "/tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf"
+        "/tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf",
+        "mv /tmp/config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json"
       ]
     }
   ]

@@ -1,15 +1,16 @@
 # dq-packer-ops-httpd
-This repository creates an AMI in AWS with latest version of HTTPD 
+This repository creates an AMI in AWS with latest version of HTTPD
 
 ## Features
 
 ### `packer.json`
-This file contains a wrap up for Ansible script to be run inside small Centos 7.5 machine
+This file contains the install script and deploys AMI using redhat
 
-### `playbook.yml`
-Ansible playbook installing the following:
+Installing the following:
 - latest version of HTTPD service
 - script to pull HTTPD config from s3
+- scripts to check expiry of certs and if remote backups are out of date
+- aazon cloudwatch agent
 
 ### `templates`
 
