@@ -1,7 +1,7 @@
 {
 "agent": {
         "metrics_collection_interval": 60,
-        "run_as_user": "centos"
+        "run_as_user": "ec2-user"
 },
 "metrics": {
         "namespace": "CWAgent",
