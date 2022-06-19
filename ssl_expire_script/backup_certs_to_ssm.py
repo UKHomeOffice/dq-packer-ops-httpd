@@ -18,13 +18,13 @@ CONFIG = Config(
     )
 )
 
-logging.basicConfig(filename='/home/centos/ssl_expire_script/backup.log', level=logging.INFO)
+logging.basicConfig(filename='/home/ec2-user/ssl_expire_script/backup.log', level=logging.INFO)
 
 now = datetime.datetime.today()
 now = now.strftime("%Y-%m-%d %H:%M:%S")
-expiry_file = "/home/centos/ssl_expire_script/cert_expiry.txt"
+expiry_file = "/home/ec2-user/ssl_expire_script/cert_expiry.txt"
 get_remote_expiry = os.getenv('GET_REMOTE_EXPIRY_COMMAND')
-remote_expiry_file = "/home/centos/ssl_expire_script/remote_cert_expiry.txt"
+remote_expiry_file = "/home/ec2-user/ssl_expire_script/remote_cert_expiry.txt"
 bucket = os.getenv('BUCKET')
 s3_file_landing = os.getenv('S3_FILE_LANDING')
 live_certs = os.getenv('LIVE_CERTS')
@@ -145,7 +145,7 @@ def check_remote_expiry():
         #ACQUIRE LOCAL CERT EXIPRY
 
         #The compairson condition depends on the existance of cert_expiry.txt
-        my_file = Path("/home/centos/ssl_expire_script/cert_expiry.txt")
+        my_file = Path("/home/ec2-user/ssl_expire_script/cert_expiry.txt")
         if my_file.is_file():
             #strip unwanted text from get_expiry to get enddate <class 'str'>
             l = open(expiry_file, "r")
