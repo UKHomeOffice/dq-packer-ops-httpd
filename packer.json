@@ -82,6 +82,7 @@
         "dnf -y update",
         "dnf install -y openssl-devel",
         "dnf install -y wget",
+        "dnf remove -y python36",
         "dnf install -y python39",
         "dnf install -y python3-pip",
         "dnf install -y cloud-utils-growpart.noarch",
