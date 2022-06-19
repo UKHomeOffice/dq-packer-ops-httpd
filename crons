@@ -1,7 +1,7 @@
 #Ansible: Check Certificate Expiry Status
-0 9 * * * source /home/centos/ssl_expire_script/env_vars && python3.9 /home/centos/ssl_expire_script/cert_expiry_monitor.py
+0 9 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/cert_expiry_monitor.py
 #Ansible: Backup Certs to SSM
-0 1 * * * source /home/centos/ssl_expire_script/env_vars && python3.9 /home/centos/ssl_expire_script/backup_certs_to_ssm.py
+0 1 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/backup_certs_to_ssm.py
 #Ansible: Pull httpd config files s3
-* * * * * source /root/.bashrc && python3.9 /home/centos/gets3content.py
+* * * * * source /root/.bashrc && python3.9 /home/ec2-user/gets3content.sh
 @reboot /usr/bin/startcloudwatchlogs.sh
