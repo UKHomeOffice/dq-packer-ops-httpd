@@ -41,8 +41,8 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "gets3content.py",
-      "destination": "/home/ec2-user/gets3content.py"
+      "source": "gets3content.sh",
+      "destination": "/home/ec2-user/gets3content.sh"
     },
     {
       "type": "file",
