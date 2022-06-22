@@ -3,5 +3,5 @@
 #Ansible: Backup Certs to SSM
 0 1 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/backup_certs_to_ssm.py
 #Ansible: Pull httpd config files s3
-* * * * * source /root/.bashrc && python3.9 /home/ec2-user/gets3content.sh
+* * * * * source /root/.bashrc /home/ec2-user/gets3content.sh
 @reboot /usr/bin/startcloudwatchlogs.sh
