@@ -120,7 +120,7 @@ def send_message_to_slack(text):
 def check_remote_expiry():
 
     try:
-        os.system(f"/usr/local/bin/aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
+        os.system(f"/bin/aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
         os.system(f"sudo {get_remote_expiry} > {remote_expiry_file}")
 
         #strip unwanted text from get_expiry to get enddate <class 'str'>
@@ -166,7 +166,7 @@ def check_remote_expiry():
             if now_obj > enddate_obj and now_obj < local_enddate_obj:
                 file_list = os.listdir(live_certs)
                 for i in file_list:
-                    os.system(f"/usr/local/bin/aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
+                    os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
                     logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
 
 
