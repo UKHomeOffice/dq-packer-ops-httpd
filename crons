@@ -1,3 +1,6 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
 #Ansible: Check Certificate Expiry Status
 0 9 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/cert_expiry_monitor.py
 #Ansible: Backup Certs to SSM
