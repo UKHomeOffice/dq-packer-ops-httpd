@@ -113,6 +113,7 @@
         "chmod 644 /etc/letsencrypt/config.ini",
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
+        "chown -R ec2-user:ec2-user /home/ec2-user/",
         "/tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf",
         "mv /tmp/config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json"
       ]
