@@ -93,6 +93,7 @@
         "dnf install -y awscli",
         "pip3.9 install install boto3 botocore futures lxml",
         "timedatectl set-timezone Europe/London",
+        "systemctl enable httpd",
         "systemctl start httpd",
         "semanage permissive -a httpd_t",
         "setsebool httpd_can_network_relay on",
