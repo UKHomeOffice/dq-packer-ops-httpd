@@ -162,12 +162,20 @@ def check_remote_expiry():
             local_renewal_length = local_enddate_obj - now_obj
             logging.info(f"Local Renewal length: {local_renewal_length}")
 
-            #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
-            if now_obj > enddate_obj and now_obj < local_enddate_obj:
-                file_list = os.listdir(live_certs)
-                for i in file_list:
-                    os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
-                    logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
+            # #if the current time is greater than the remote_enddate and current time less than local_enddate send message to slack
+            # if now_obj > enddate_obj and now_obj < local_enddate_obj:
+            #     file_list = os.listdir(live_certs)
+            #     for i in file_list:
+            #         os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
+            #         logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
+
+            #if local reneal lenth is greater than remote renewal then upload local certs to s3
+            if local_renewal_length > renewal_length:
+                os.system(f"sudo aws s3 cp {live_certs}/cert.pem s3://{bucket}/analysis/letsencrypt/")
+                os.system(f"sudo aws s3 cp {live_certs}/chain.pem s3://{bucket}/analysis/letsencrypt/")
+                os.system(f"sudo aws s3 cp {live_certs}/fullchain.pem s3://{bucket}/analysis/letsencrypt/")
+                os.system(f"sudo aws s3 cp {live_certs}/privkey.pem s3://{bucket}/analysis/letsencrypt/")
+                logging.info(f"REMOTE SSL Cert renwal length {renewal_length} is greater than Local cert renewal_length {local_renewal_length}. Uploaded local certs to s3")
 
 
     except Exception as err:
