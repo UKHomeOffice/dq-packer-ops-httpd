@@ -86,6 +86,7 @@ steps:
   pull: always
   image: *copy-image
   commands:
+  - source ./set_aws_secrets.sh
   - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
   - export region=eu-west-2
   - export HOME=/home/packer
@@ -115,6 +116,7 @@ steps:
   pull: always
   image: *copy-image
   commands:
+  - source ./set_aws_secrets.sh
   - export filters="--owner 093401982388 --filters "Name=name,Values=dq-ops-httpd*""
   - export region=eu-west-2
   - export HOME=/home/packer
