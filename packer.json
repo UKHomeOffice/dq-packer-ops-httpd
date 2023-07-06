@@ -1,7 +1,9 @@
 {
   "variables": {
     "access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
-    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+    "secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}",
+    "drone_build_number": "{{env `DRONE_BUILD_NUMBER`}}",
+    "drone_repo_name": "{{env `DRONE_REPO_NAME`}}"
   },
   "builders": [
     {
@@ -13,13 +15,16 @@
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
-          "name": "RHEL_HA-8.4.0_HVM-20210504-x86_64-2-Hourly2-GP2",
-          "root-device-type": "ebs"
+          "name": "RHEL-8.*",
+          "architecture": "x86_64"
         },
         "owners": [
           "309956199498"
         ],
         "most_recent": true
+      },
+      "run_tags":{
+            "Name": "Packer Build [{{user `drone_repo_name`}}: {{user `drone_build_number`}}]"
       },
       "launch_block_device_mappings": [
         {
@@ -31,7 +36,7 @@
       ],
       "ssh_username": "ec2-user",
       "instance_type": "t3.micro",
-      "ami_name": "dq-ops-httpd-redhat {{isotime | clean_ami_name}}",
+      "ami_name": "dq-ops-httpd-redhat {{user `drone_build_number`}}",
       "ami_users": [
         "483846886818",
         "337779336338"
