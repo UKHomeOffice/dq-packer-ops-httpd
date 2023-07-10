@@ -91,7 +91,6 @@
         "dnf install -y python39-pip",
         "dnf install -y cloud-utils-growpart.noarch",
         "dnf install -y httpd",
-        "dnf install -y install",
         "dnf install -y mod_ssl",
         "dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm",
         "dnf install -y python3-certbot-apache",
