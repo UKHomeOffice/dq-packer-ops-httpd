@@ -71,8 +71,8 @@
     },
     {
       "type": "file",
-      "source": "ssl_expire_script/backup_certs_to_ssm.py",
-      "destination": "/tmp/backup_certs_to_ssm.py"
+      "source": "ssl_expire_script/backup_certs_to_s3.py",
+      "destination": "/tmp/backup_certs_to_s3.py"
     },
     {
       "type": "file",
@@ -108,7 +108,7 @@
         "mkdir -m 700 /etc/letsencrypt/live",
         "mkdir -m 700 /home/ec2-user/ssl_expire_script",
         "mkdir -m 700 /home/ec2-user/gets3content",
-        "mv /tmp/backup_certs_to_ssm.py /home/ec2-user/ssl_expire_script/",
+        "mv /tmp/backup_certs_to_s3.py /home/ec2-user/ssl_expire_script/",
         "mv /tmp/cert_expiry_monitor.py /home/ec2-user/ssl_expire_script/",
         "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh",
         "mv /tmp/gets3content.sh /home/ec2-user/gets3content/gets3content.sh",

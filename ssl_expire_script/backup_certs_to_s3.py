@@ -31,7 +31,6 @@ live_certs = os.getenv('LIVE_CERTS')
 
 
 def error_handler(lineno, error, fail=True):
-
     try:
         logging.error('The following error has occurred on line: %s', lineno)
         logging.error(str(error))
@@ -118,14 +117,13 @@ def send_message_to_slack(text):
 
 
 def check_remote_expiry():
-
     try:
         logging.info(f"Downloading Remote Certificate")
         os.system(f"/bin/aws s3 cp s3://{bucket}/analysis/letsencrypt/cert.pem {s3_file_landing}")
         logging.info(f"Getting expiry of Remote Certificate")
         os.system(f"sudo {get_remote_expiry} > {remote_expiry_file}")
 
-        #strip unwanted text from get_expiry to get enddate <class 'str'>
+        # strip unwanted text from get_expiry to get enddate <class 'str'>
         logging.info(f"strip unwanted text from get_expiry to get enddate string")
         f = open(remote_expiry_file, "r")
         for date in f:
@@ -133,40 +131,40 @@ def check_remote_expiry():
             # remove whitespace after enddate
             enddate_str = date.strip()
 
-        #convert enddate_str to datetime
+        # convert enddate_str to datetime
         logging.info(f"Converting remote enddate_string to datetime")
         enddate_obj = datetime.datetime.strptime(enddate_str, "%b %d %H:%M:%S %Y %Z")
         logging.info(f"Remote Certificate expiry datetime is: {enddate_obj}")
 
-        #convert now_str to datetime
+        # convert now_str to datetime
         logging.info(f"Converting remote now_string to datetime")
         now_obj = datetime.datetime.strptime(now, "%Y-%m-%d %H:%M:%S")
         logging.info(f"Current datetime is: {now_obj}")
 
-        #Get the length of period between now and enddate
+        # Get the length of period between now and enddate
         logging.info(f"Get the length of period between now and remote enddate")
-        renewal_length =  enddate_obj - now_obj
+        renewal_length = enddate_obj - now_obj
         logging.info(f"Remote Renewal length: {renewal_length}")
 
-        #ACQUIRE LOCAL CERT EXIPRY
+        # ACQUIRE LOCAL CERT EXIPRY
 
-        #The compairson condition depends on the existance of cert_expiry.txt
+        # The compairson condition depends on the existance of cert_expiry.txt
         logging.info(f"Acquring Local Cert Expiry")
         my_file = Path("/home/ec2-user/ssl_expire_script/cert_expiry.txt")
         if my_file.is_file():
-            #strip unwanted text from get_expiry to get enddate <class 'str'>
+            # strip unwanted text from get_expiry to get enddate <class 'str'>
             l = open(expiry_file, "r")
             for local_date in l:
                 local_date = local_date[9:]
                 # remove whitespace after enddate
                 local_enddate_str = local_date.strip()
 
-            #convert local_enddate_str to datetime
+            # convert local_enddate_str to datetime
             logging.info(f"Converting local enddate_string to datetime")
             local_enddate_obj = datetime.datetime.strptime(local_enddate_str, "%b %d %H:%M:%S %Y %Z")
             logging.info(f"Local Certificate expiry datetime is: {local_enddate_obj}")
 
-            #Get the length of period between now and local_enddate
+            # Get the length of period between now and local_enddate
             logging.info(f"Get the length of period between now and local enddate")
             local_renewal_length = local_enddate_obj - now_obj
             logging.info(f"Local Renewal length: {local_renewal_length}")
@@ -178,16 +176,21 @@ def check_remote_expiry():
             #         os.system(f"aws s3 cp {live_certs}/{i} s3://{bucket}/analysis/letsencrypt/")
             #         logging.info(f"REMOTE SSL Certificates expired by {renewal_length} . Local certficates are valid. Uploaded local certs to s3")
 
-            #if local reneal lenth is greater than remote renewal then upload local certs to s3
-            logging.info(f"if local renewal lenth is greater than remote renewal then upload local certs to s3")
+            # if local renewal length is greater than remote renewal length then upload local certs to s3
+            logging.info(f"Comparing renewal lengths (local/remote)")
             if local_renewal_length > renewal_length:
+                logging.info(f"LOCAL SSL Cert renewal_length {local_renewal_length} is greater than REMOTE SSL Cert renewal length {renewal_length}. Uploading local certs to S3.")
                 os.system(f"sudo aws s3 cp {live_certs}/cert.pem s3://{bucket}/analysis/letsencrypt/")
                 os.system(f"sudo aws s3 cp {live_certs}/fullchain.pem s3://{bucket}/analysis/letsencrypt/")
                 os.system(f"sudo aws s3 cp {live_certs}/privkey.pem s3://{bucket}/analysis/letsencrypt/")
-                logging.info(f"REMOTE SSL Cert renwal length {renewal_length} is greater than Local cert renewal_length {local_renewal_length}. Uploaded local certs to s3")
+                logging.info(f"Uploaded local certs to s3.")
+            else:
+                logging.info(
+                    f"LOCAL SSL Cert renewal_length {local_renewal_length} is NOT greater than REMOTE SSL Cert renewal length {renewal_length}. Not uploading local certs to s3.")
 
 
     except Exception as err:
         error_handler(sys.exc_info()[2].tb_lineno, err)
+
 
 check_remote_expiry()
