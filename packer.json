@@ -51,6 +51,11 @@
     },
     {
       "type": "file",
+      "source": "sshd_config",
+      "destination": "/tmp/sshd_config"
+    },  
+    {
+      "type": "file",
       "source": "startcloudwatchlogs.sh",
       "destination": "/tmp/startcloudwatchlogs.sh"
     },
@@ -112,6 +117,7 @@
         "mv /tmp/cert_expiry_monitor.py /home/ec2-user/ssl_expire_script/",
         "mv /tmp/startcloudwatchlogs.sh /usr/bin/startcloudwatchlogs.sh",
         "mv /tmp/gets3content.sh /home/ec2-user/gets3content/gets3content.sh",
+        "mv /tmp/sshd_config /etc/ssh/sshd_config",          
         "cp /tmp/cronfile /var/spool/cron/ec2-user",
         "cp -f /tmp/install/httpd.conf /etc/httpd/conf/httpd.conf",
         "cp -f /tmp/install/ssl.conf /etc/httpd/conf.d/ssl.conf",
@@ -123,6 +129,7 @@
         "chmod +x /tmp/awslogs-agent-setup.py",
         "chmod +x /home/ec2-user/gets3content/gets3content.sh",
         "chmod 0770 /home/ec2-user/ssl_expire_script/",
+        "chmod 0600 /etc/ssh/sshd_config",  
         "chown -R ec2-user:ec2-user /home/ec2-user/",
         "/tmp/awslogs-agent-setup.py --region eu-west-2 --non-interactive -c /tmp/cwlogs.conf",
         "mv /tmp/config.json /opt/aws/amazon-cloudwatch-agent/bin/config.json"
