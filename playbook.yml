@@ -1,4 +1,4 @@
-vars_files:
+  vars_files:
     - ./vars/dqusers.yml
   tasks:
   - name: Create users for dqsupport members
