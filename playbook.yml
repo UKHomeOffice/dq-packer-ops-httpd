@@ -4,7 +4,8 @@
   become: true
   vars_files:
     - ./vars/dqusers.yml
-  playbook_file: ./playbook.yml
+  playbook_file: 
+    - ./playbook.yml
   tasks:
   - name: Create users for dqsupport members
     user:
