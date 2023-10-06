@@ -16,7 +16,7 @@ Cmnd_Alias LOCATE_{{ item.userno }} = /usr/bin/updatedb, /bin/sh, /bin/bash
 Cmnd_Alias STORAGE_{{ item.userno }} = /sbin/fdisk, /sbin/sfdisk, /sbin/parted, /sbin/partprobe, /bin/mount, /bin/umount, /sbin/powermt
 
 ## Delegating permissions
-Cmnd_Alias DELEGATING_{{ item.userno }} = /usr/sbin/visudo, /bin/chown, /bin/chmod, /bin/chgrp, /usr/sbin/chroot, /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl, /usr/bin/certbot, /usr/bin/pip, cat /etc/httpd/conf.d/ssl.conf, /usr/bin/su - ec2-user
+Cmnd_Alias DELEGATING_{{ item.userno }} = /usr/sbin/visudo, /bin/chown, /bin/chmod, /bin/chgrp, /usr/sbin/chroot, /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl, /usr/bin/certbot, /usr/bin/pip, /usr/bin/su - ec2-user
 
 ## Processes
 Cmnd_Alias PROCESSES_{{ item.userno }} = /bin/nice, /bin/kill, /usr/bin/kill, /usr/bin/killall
