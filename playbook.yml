@@ -16,7 +16,7 @@
     authorized_key:
       user: '{{ item.name }}'
       key: '{{ item.pubkey | join("\n")  }}'
-        state: "present" 
+      state: "present" 
     with_items: "{{ dqusers }}"    
 
   - name: deploy sudoers file
