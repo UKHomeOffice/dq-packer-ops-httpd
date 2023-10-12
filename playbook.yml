@@ -2,17 +2,18 @@
 - name: Build Ops httpd Server
   hosts: all
   become: true
+  
   tasks:
   - name: DNF Install Dependencies
     dnf: name={{ item }}
     with_items:
-        - make
-        - gcc
-        - python39
-        - pcre-devel
-        - openssl-devel
-        - zip
-        - unzip
+      - make
+      - gcc
+      - python39
+      - pcre-devel
+      - openssl-devel
+      - zip
+      - unzip
     become: true
 
   - name: Get AWS-CLI
