@@ -29,7 +29,7 @@
       src: /usr/bin/python3.9
       dest: /usr/bin/python
       state: link
-    force: true
+      force: true
   - name: PIP install botocore and boto3
     pip:
       name:
