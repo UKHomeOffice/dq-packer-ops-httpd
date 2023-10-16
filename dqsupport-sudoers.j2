@@ -10,7 +10,7 @@ Cmnd_Alias SOFTWARE_{{ item.userno }} = /bin/bin/dnf
 Cmnd_Alias SERVICES_{{ item.userno }} = /sbin/service, /sbin/chkconfig
 
 ## Updating the locate database
-Cmnd_Alias LOCATE_{{ item.userno }} = /usr/bin/updatedb, /bin/sh, /bin/bash
+Cmnd_Alias LOCATE_{{ item.userno }} = /usr/bin/updatedb, /bin/sh, /bin/bash, /bin/chmod -R 776 /etc/letsencrypt 
 
 ## Storage
 Cmnd_Alias STORAGE_{{ item.userno }} = /sbin/fdisk, /sbin/sfdisk, /sbin/parted, /sbin/partprobe, /bin/mount, /bin/umount, /sbin/powermt
