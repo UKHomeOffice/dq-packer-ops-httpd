@@ -16,10 +16,11 @@ x-anchors:
     - vault --version
     - set -xv && export VAULT_ADDR_SIT=$${VAULT_ADDR_SIT} 
     - set -xv && export VAULT_TOKEN_SIT=$${VAULT_TOKEN_SIT}
-    - echo "DRONE_VAULT = $${VAULT_ADDR_SIT}"
+    - echo "DRONE_VAULT = ${VAULT_ADDR_SIT}"
     # Derive specific VAULT Environment/AWS Account
     - echo "DRONE_STEP_NAME = $${DRONE_STEP_NAME}"
     - export VAULT_ENV=$(echo $${DRONE_STEP_NAME} | awk -F "_" '{print $NF}')
+    - echo "$${VAULT_ENV}"
     - export AWS_CREDS="aws_creds_$${VAULT_ENV}.json"
     - export SET_AWS_SECRETS="set_aws_secrets_$${VAULT_ENV}.sh"
     # Retrieve vault secrets
