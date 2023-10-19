@@ -61,6 +61,8 @@ steps:
   pull: always
   image: *vault-image
   commands:
+    - set -xv && export VAULT_ADDR_SIT=$${VAULT_ADDR_SIT} 
+    - set -xv && export VAULT_TOKEN_SIT=$${VAULT_TOKEN_SIT} 
     *retrieve-deployment-aws-key
   environment:
     VAULT_ADDR:
