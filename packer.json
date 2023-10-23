@@ -29,13 +29,13 @@
       "launch_block_device_mappings": [
         {
           "device_name": "/dev/sda1",
-          "volume_size": 50,
+          "volume_size": 80,
           "volume_type": "gp2",
           "delete_on_termination": true
         }
       ],
       "ssh_username": "ec2-user",
-      "instance_type": "t3.micro",
+      "instance_type": "t3.large",
       "ami_name": "dq-ops-httpd {{user `drone_build_number`}}",
       "ami_users": [
         "483846886818",
