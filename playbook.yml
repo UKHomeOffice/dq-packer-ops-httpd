@@ -9,7 +9,8 @@
     with_items:
       - make
       - gcc
-      - python311
+      - python3.11
+      - python3.11-pip
       - pcre-devel
       - openssl-devel
       - zip
