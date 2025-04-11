@@ -1,7 +1,7 @@
 #Ansible: Check Certificate Expiry Status - at 9am
-0 9 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/cert_expiry_monitor.py
+0 9 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.11 /home/ec2-user/ssl_expire_script/cert_expiry_monitor.py
 #Ansible: Backup Certs to S3 - at 1am
-0 1 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.9 /home/ec2-user/ssl_expire_script/backup_certs_to_s3.py
+0 1 * * * source /home/ec2-user/ssl_expire_script/env_vars && python3.11 /home/ec2-user/ssl_expire_script/backup_certs_to_s3.py
 #Ansible: Pull httpd config files S3 - every 5 mins
 */5 * * * * source /home/ec2-user/gets3content/env_vars && /home/ec2-user/gets3content/gets3content.sh
 @reboot /usr/bin/startcloudwatchlogs.sh
