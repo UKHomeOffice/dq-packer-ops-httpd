@@ -48,7 +48,7 @@
     {
       "type": "shell",
       "inline": [
-        "sudo dnf install -y python3.11 python3.11-pip zip unzip make gcc pcre-deve1 openssl-deve1",
+        "sudo dnf install -y python3.11 python3.11-pip zip unzip make gcc pcre-devel openssl-devel",
         "sudo ln -sf /usr/bin/python3.11 /usr/bin/python3",
         "sudo ln -sf /usr/bin/python3.11 /usr/bin/python"
       ]
