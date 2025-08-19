@@ -12,6 +12,7 @@
       "secret_key": "{{user `secret_key`}}",
       "region": "eu-west-2",
       "iam_instance_profile": "packer_builder",
+      "temporary_security_group_source_public_ip": true,
       "source_ami_filter": {
         "filters": {
           "virtualization-type": "hvm",
@@ -44,6 +45,14 @@
     }
   ],
   "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo dnf install -y python3.11 python3.11-pip zip unzip make gcc pcre-devel openssl-devel",
+        "sudo ln -sf /usr/bin/python3.11 /usr/bin/python3",
+        "sudo ln -sf /usr/bin/python3.11 /usr/bin/python"
+      ]
+    },
     {
       "type": "ansible",
       "playbook_file": "./playbook.yml",
