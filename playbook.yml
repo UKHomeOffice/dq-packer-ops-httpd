@@ -4,19 +4,6 @@
   become: true
   
   tasks:
-  # - name: DNF Install Dependencies
-  #   dnf: name={{ item }}
-  #   with_items:
-  #     - make
-  #     - gcc
-  #     - python3.11
-  #     - python3.11-pip
-  #     - pcre-devel
-  #     - openssl-devel
-  #     - zip
-  #     - unzip
-  #   become: true
-
   - name: Get AWS-CLI
     shell: |
       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
@@ -25,12 +12,6 @@
     become: true
     become_user: root
 
-  # - name: Create python link
-  #   file:
-  #     src: /usr/bin/python3.11
-  #     dest: /usr/bin/python
-  #     state: link
-  #     force: true
   - name: PIP install botocore and boto3
     pip:
       name:
